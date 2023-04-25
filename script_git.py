@@ -75,4 +75,3 @@ if __name__ == "__main__":
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
     print(phi, lam, h)
     
-"masakra z tymi tokenami"
