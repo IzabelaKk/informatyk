@@ -69,6 +69,23 @@ class transformacje():
         """
         N = self.a / np.sqrt(1 - self.e2 * np.sin(self.f)**2)
         return(N)
+    
+    
+    def Mp(self):
+        """
+        Funkcja wyznaczająca promień przekroju normalnego w kierunku głównym
+        -------
+        a - duża półoś elispoidy
+        f - spłaszczenie
+        e2 - mimośród podniesiony do kwadratu
+        
+        Zwraca:
+        -------
+        Wartosć primienia przekroju normalnego w kierunku głównym
+
+        """
+        M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(f)**2)**3)
+        return(M)
             
             
     def XYZ2flh(self, X, Y, Z):
