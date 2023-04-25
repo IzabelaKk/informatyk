@@ -92,3 +92,5 @@ if __name__ == "__main__":
     X = 3664940.500; Y = 1409153.590; Z = 5009571.170
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
     print(phi, lam, h)
+    
+"masakra z tymi tokenami"
