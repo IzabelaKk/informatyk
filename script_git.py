@@ -51,6 +51,24 @@ class transformacje():
         m = int(60 * (x - d))
         s = (x - d - m/60)*3600
         print(txt,sig,'%3d' % d,'°', '%2d' % m,"'",'%7.5f' % s,'"')
+        
+        
+        
+    def Np(self):
+        """
+        Funkcja okreslająca przekrój poprzeczny w I wertykale
+        -------
+        a - duża półoś elispoidy
+        f - spłaszczenie
+        e2 - mimośród podniesiony do kwadratu
+        
+        Zwraca:
+        -------
+        Wartosć przekroju poprzecznego w I wetykale
+
+        """
+        N = self.a / np.sqrt(1 - self.e2 * np.sin(self.f)**2)
+        return(N)
             
             
     def XYZ2flh(self, X, Y, Z):
