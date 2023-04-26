@@ -90,6 +90,21 @@ class transformacje():
             
             
     def XYZ2flh(self, X, Y, Z):
+        """
+        Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich (x, y, z)
+        na współrzędne geodezyjne długość szerokość i wysokośc elipsoidalna (phi, lam, h). Jest to proces iteracyjny. 
+        W wyniku 3-4-krotneej iteracji wyznaczenia wsp. phi można przeliczyć współrzędne z dokładnoscią ok 1 cm.     
+        Parametry:
+        ----------
+        X, Y, Z : FLOAT
+             współrzędne w układzie orto-kartezjańskim, 
+
+        Zwraca:
+        -------
+        phi - szerokość geodezyjna w stopniach dziesiętnych
+        lam - długośc geodezyjna w stopniach dziesiętnych
+        h - wysokość elipsoidalna w metrach
+        """
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
         self.dms('f', f)
@@ -117,5 +132,8 @@ if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3664940.500; Y = 1409153.590; Z = 5009571.170
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
-    print(phi, lam, h)
-"masakra z tymi tokenami"
+    print(phi, lam, h)  #h do poprawy
+
+#if __name__ == "__main__":
+ #   orto = transformacje(model = "wgs84")
+    
