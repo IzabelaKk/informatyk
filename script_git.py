@@ -120,6 +120,25 @@ class transformacje():
         return(degrees(f), degrees(l), h)
     
     def flh2XYZ(self, f, l, h):
+        """
+        Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
+
+        Parametry:
+        ----------
+        f : FLOAT
+            szerokosć geodezyjna wyrażona w radianach ?????????????????
+        l : FLOAT
+            długosć geodezyjna wyrażona w radianach
+        h : FLOAT
+            wysokosć elipsoidalna wyrażona w metrach
+
+        Returns
+        -------
+        X - [metry]
+        Y - [metry]
+        Z - [metry]
+
+        """
         N = self.Np()
         X = (N + h) * cos(f) * cos(l)
         Y = (N + h) * cos(f) * sin(l)
