@@ -31,7 +31,7 @@ class transformacje():
         self.e2 = (2 * self.f - self.f ** 2) 
             
             
-    def dms(x,txt):
+    def dms(self, txt, x):
         """
         Funkcja przeliczająca wartość wyrażoną w radianach na wartość wyrażoną w stopniach, minutach i sekundach
         ----------
@@ -42,6 +42,7 @@ class transformacje():
         -------
         dms - stopnie, minuty, sekundy
         """
+ 
         sig = ' '
         if x < 0:
             sig = '-'
@@ -50,28 +51,137 @@ class transformacje():
         d = int(x)
         m = int(60 * (x - d))
         s = (x - d - m/60)*3600
+#<<<<<<< HEAD
         print(txt,sig,'%3d' % d,'°', '%2d' % m,"'",'%7.5f' % s,'"')
+#=======
+        return f"{txt} {sig} {d:3d}° {m:2d}' {s:7.5f}\""
+#>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
+        
+        
+        
+    def Np(self):
+        """
+        Funkcja okreslająca przekrój poprzeczny w I wertykale
+        -------
+        a - duża półoś elispoidy
+        f - spłaszczenie
+        e2 - mimośród podniesiony do kwadratu
+        
+        Zwraca:
+        -------
+        Wartosć przekroju poprzecznego w I wetykale
+
+        """
+        N = self.a / np.sqrt(1 - self.e2 * np.sin(self.f)**2)
+        return(N)
+    
+    
+    def Mp(self):
+        """
+        Funkcja wyznaczająca promień przekroju normalnego w kierunku głównym
+        -------
+        a - duża półoś elispoidy
+        f - spłaszczenie
+        e2 - mimośród podniesiony do kwadratu
+        
+        Zwraca:
+        -------
+<<<<<<< HEAD
+        Wartosć primienia przekroju normalnego w kierunku głównym
+=======
+        Wartosć promienia przekroju normalnego w kierunku głównym
+>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
+
+        """
+        M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(f)**2)**3)
+        return(M)
             
             
     def XYZ2flh(self, X, Y, Z):
+        """
+        Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich (x, y, z)
+        na współrzędne geodezyjne długość szerokość i wysokośc elipsoidalna (phi, lam, h). Jest to proces iteracyjny. 
+        W wyniku 3-4-krotneej iteracji wyznaczenia wsp. phi można przeliczyć współrzędne z dokładnoscią ok 1 cm.     
+        Parametry:
+        ----------
+        X, Y, Z : FLOAT
+             współrzędne w układzie orto-kartezjańskim, 
+
+        Zwraca:
+        -------
+        phi - szerokość geodezyjna w stopniach dziesiętnych
+        lam - długośc geodezyjna w stopniach dziesiętnych
+        h - wysokość elipsoidalna w metrach
+        """
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
-        dms(f)
+#<<<<<<< HEAD
+        f_deg = dms(f)
         while True:
-            N = Np(f, self.a, self.e2)
-            h = (p/np.cos(f))-N
-            fpop = f
-            f = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+            N = Np(f_deg, self.a, self.e2)
+            h = (p/np.cos(f_deg))-N
+            fpop = f_deg
+            f_deg = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
             dms(f)
-            if abs(fpop-f) < (0.000001/206265):
+            if abs(fpop-f_deg) < (0.000001/206265):
                 break
             l = np.arctan2(Y,X)
-            return(f,l,h)
+            return(f_deg,l,h)
         
         
+#=======
+        self.dms('f', f)
+        while True:
+            N = self.Np()
+            h = (p/np.cos(f))-N
+            fpop = f
+            fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+            self.dms('f', f)
+            if abs(fpop-f) < (0.000001/206265):
+                break
+        l = np.arctan2(Y,X)
+        return(degrees(f), degrees(l), h)
+    
+    def flh2XYZ(self, f, l, h):
+        """
+        Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
+
+        Parametry:
+        ----------
+        f : FLOAT
+            szerokosć geodezyjna wyrażona w radianach ?????????????????
+        l : FLOAT
+            długosć geodezyjna wyrażona w radianach
+        h : FLOAT
+            wysokosć elipsoidalna wyrażona w metrach
+
+        Returns
+        -------
+        X - [metry]
+        Y - [metry]
+        Z - [metry]
+
+        """
+        N = self.Np()
+        X = (N + h) * cos(f) * cos(l)
+        Y = (N + h) * cos(f) * sin(l)
+        Z = (N * (1 - self.e2) + h) * sin(f)
+        return(X,Y,Z)
+    
+    
+    
+#>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3664940.500; Y = 1409153.590; Z = 5009571.170
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
+#<<<<<<< HEAD
     print(phi, lam, h)
     
+#=======
+    print(phi, lam, h)  #h do poprawy
+
+#if __name__ == "__main__":
+ #   orto = transformacje(model = "wgs84")
+    
+#>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
