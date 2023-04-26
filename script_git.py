@@ -97,14 +97,22 @@ class transformacje():
             N = self.Np()
             h = (p/np.cos(f))-N
             fpop = f
-            f = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+            fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
             self.dms('f', f)
             if abs(fpop-f) < (0.000001/206265):
                 break
         l = np.arctan2(Y,X)
         return(degrees(f), degrees(l), h)
     
-      
+    def flh2XYZ(self, f, l, h):
+        N = self.Np()
+        X = (N + h) * cos(f) * cos(l)
+        Y = (N + h) * cos(f) * sin(l)
+        Z = (N * (1 - self.e2) + h) * sin(f)
+        return(X,Y,Z)
+    
+    
+    
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3664940.500; Y = 1409153.590; Z = 5009571.170
