@@ -88,16 +88,7 @@ class transformacje():
         
         Zwraca:
         -------
-<<<<<<< HEAD
-<<<<<<< HEAD
-        Wartosć primienia przekroju normalnego w kierunku głównym
-=======
-        Wartosć promienia przekroju normalnego w kierunku głównym
->>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
-=======
-        Wartosć promienia przekroju normalnego w kierunku głównym
->>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
-
+        Wartosc promienia przekroju przekroju normalnego w kierunku głównym. 
         """
         M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(f)**2)**3)
         return(M)
@@ -121,24 +112,6 @@ class transformacje():
         """
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-#<<<<<<< HEAD
-        f_deg = dms(f)
-        while True:
-            N = Np(f_deg, self.a, self.e2)
-            h = (p/np.cos(f_deg))-N
-            fpop = f_deg
-            f_deg = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
-            dms(f)
-            if abs(fpop-f_deg) < (0.000001/206265):
-                break
-            l = np.arctan2(Y,X)
-            return(f_deg,l,h)
-=======
-        #self.dms('f', f)
->>>>>>> fdae8ee9e61a919b1a8f47d9d60c041be7850b57
         while True:
             N = self.Np()
             fpop = f
@@ -175,48 +148,49 @@ class transformacje():
         Z = (N * (1 - self.e2) + h) * sin(f)
         return(X,Y,Z)
     
-        def u1992(self, f, l):
-            """
+    def u1992(self, f, l):
+        """
+        
+        Odwzorowanie Gausa Krugera do układu 1992. Odnosi się do południka osiowego 19 stopni. 
+        Współrzędne wejsciowe zostają odwzorowane na do układu lokalnego GK a następnie przeskalowane zgodnie z układem 1992.
+        Parametry:
+        ---------
+        f:  FLOAT
+        szerokoć geodezyjna
+        l:  FLOAT
+        długoć geodezyjna 
+        Returns:
+        ---------
+        x:  FLOAT
+        szerokosc prostkątna lokalna
+        y:  FLOAT
+        długosc prostokątna lokalna
+
+        """
+        m = 0.9993
+        N = self.Np()
+        t = np.tan(f)
+        e_2 = self.e2/(1-self.e2)
+        n2 = e_2 * (np.cos(f))**2
+
+        l0 = 19 * np.pi / 180
+        d_l = l - l0
             
-            Odwzorowanie Gausa Krugera do układu 1992. Odnosi się do południka osiowego 19 stopni. 
-            Współrzędne wejsciowe zostają odwzorowane na do układu lokalnego GK a następnie przeskalowane zgodnie z układem 1992.
-            Parametry:
-            ---------
-            f:  FLOAT
-                szerokoć geodezyjna
-            l:  FLOAT
-                długoć geodezyjna 
-            Returns:
-            ---------
-            x:  FLOAT
-                szerokosc prostkątna lokalna
-            y:  FLOAT
-                długosc prostokątna lokalna
-
-            """
-            m = 0.9993
-            N = self.Np()
-            t = np.tan(f)
-            e_2 = self.e2/(1-self.e2)
-            n2 = e_2 * (np.cos(f))**2
->>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
+        A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
+        A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
+        A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
+        A6 = (35 * (self.e2**3))/3072 
+    
+        sigma = a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
+    
+        xgk = sigma + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
+        ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
+    
+        x92 = m*xgk - 5300000
+        y92 = m*ygk + 500000
         
-            l0 = 19 * np.pi / 180
-            d_l = l - l0
+        return (x92, y92)
         
-<<<<<<< HEAD
-#=======
-        self.dms('f', f)
-        while True:
-            N = self.Np()
-            h = (p/np.cos(f))-N
-            fpop = f
-            fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
-            self.dms('f', f)
-            if abs(fpop-f) < (0.000001/206265):
-                break
-        l = np.arctan2(Y,X)
-        return(degrees(f), degrees(l), h)
     
     def flh2XYZ(self, f, l, h):
         """
@@ -244,24 +218,6 @@ class transformacje():
         Z = (N * (1 - self.e2) + h) * sin(f)
         return(X,Y,Z)
     
-    
-    
-#>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
-=======
-            A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
-            A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
-            A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
-            A6 = (35 * (self.e2**3))/3072 
-        
-            sigma = a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
-        
-            xgk = sigma + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
-            ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
-        
-            x92 = m*xgk - 5300000
-            y92 = m*ygk + 500000
-        
-            return (x92, y92)
     
     def u2000(self, f, l):
         """
@@ -345,47 +301,32 @@ class transformacje():
                          s * cos(z)])
         return(dneu[0], dneu[1], dneu[2])
     
->>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
+
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3664940.500; Y = 1409153.590; Z = 5009571.170
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
-<<<<<<< HEAD
-#<<<<<<< HEAD
     print(phi, lam, h)
     
-#=======
-    print(phi, lam, h)  #h do poprawy
-
-#if __name__ == "__main__":
- #   orto = transformacje(model = "wgs84")
-    
-#>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
-=======
-    print(phi, lam, h)  #h do poprawy
-
-#if __name__ == "__main__":
- #   orto = transformacje(model = "wgs84")
  
- 
+""" tu cos nie gra chyba trzeba zrobic ta inna wersje
  
 if __name__ == "__main__":
     
-     trans = transformacje()
-     pars = argparse.ArgumentParser(description = "Transformacje współrzędnych")
-     pars.add_argument(dest = "Metoda", metavar = 'M', nargs = 1, type = str,
-                       help = 'napisz nazwe metody (wymienic metody)')
-     pars.add_argument(dest = 'Załączanie danych', metavar = 'L', nargs = 1, type = str,
-                       help = 'jak chcesz wprowadzac tane txt, input')
-     
-     pars.add_argument(dest = 'dane', metavar = 'D', type = float, nargs = '+',
-                       help = 'wsp do zamiany')
-     
-     args = pars.parse_args()
-     print(args)
-     #funkcja = getattr(trans, args.method[0])
+    trans = transformacje()
+    pars = argparse.ArgumentParser(description = "Transformacje współrzędnych")
+    pars.add_argument(dest = "Metoda", metavar = 'M', nargs = 1, type = str,
+                      help = 'napisz nazwe metody (wymienic metody)')
+    pars.add_argument(dest = 'Załączanie danych', metavar = 'L', nargs = 1, type = str,
+                      help = 'jak chcesz wprowadzac tane txt, input')
+        
+    pars.add_argument(dest = 'dane', metavar = 'D', type = float, nargs = '+',
+                      help = 'wsp do zamiany')
+    
+    args = pars.parse_args()
+    print(args)"""
+    
+#funkcja = getattr(trans, args.method[0])
      
 #with open(wyniki.txt, 'w') as plik:
-     
-    
->>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
+
