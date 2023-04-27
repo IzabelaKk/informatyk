@@ -144,6 +144,108 @@ class transformacje():
         Y = (N + h) * cos(f) * sin(l)
         Z = (N * (1 - self.e2) + h) * sin(f)
         return(X,Y,Z)
+        def u1992(self, f, l):
+        """
+        Odwzorowanie Gausa Krugera do układu 1992. Odnosi się do południka osiowego 19 stopni. 
+        Współrzędne wejsciowe zostają odwzorowane na do układu lokalnego GK a następnie przeskalowane zgodnie z układem 1992.
+        Parametry:
+        ---------
+        f:  FLOAT
+            szerokoć geodezyjna
+        l:  FLOAT
+            długoć geodezyjna 
+        Returns:
+        ---------
+        x:  FLOAT
+            szerokosc prostkątna lokalna
+        y:  FLOAT
+            długosc prostokątna lokalna
+         
+            
+        """
+        m = 0.9993
+        N = self.Np()
+        t = np.tan(f)
+        e_2 = self.e2/(1-self.e2)
+        n2 = e_2 * (np.cos(f))**2
+        
+        l0 = 19 * np.pi / 180
+        d_l = l - l0
+        
+        A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
+        A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
+        A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
+        A6 = (35 * (self.e2**3))/3072 
+        
+        sigma = a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
+        
+        xgk = sigma + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
+        ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
+        
+        x92 = m*xgk - 5300000
+        y92 = m*ygk + 500000
+        
+        return (x92, y92)
+    
+    def u2000(self, f, l):
+        """
+        Odwzorowanie odnosi się do odwzorowania GK bazującego tym razem na czterech południkach osiowych:
+        15, 18, 21, 24. Funkcja odwzorowuje współrzędne wejsciowe na współrzędne prostokątne lokalne GK
+        a następnie przeskalowuje je zgodnie zparametrami układu 2000.
+
+        Parametry:
+        ---------
+        f:  FLOAT
+            szerokoć geodezyjna
+        l:  FLOAT
+            długoć geodezyjna 
+        Returns:
+        ---------
+        x:  FLOAT
+            szerokosc prostkątna lokalna
+        y:  FLOAT
+            długosc prostokątna lokalna
+
+        """
+        m = 0.999923
+        N=self.Np()
+        t = np.tan(f)
+        e_2 = self.e2/(1-self.e2)
+        n2 = e_2 * (np.cos(f))**2
+        
+        l = l * 180 / np.pi
+        if l>13.5 and l <16.5:
+            s = 5
+            l0 = 15
+        elif l>16.5 and l <19.5:
+            s = 6
+            l0 = 18
+        elif l>19.5 and l <22.5:
+            s = 7
+            l0 = 21
+        elif l>22.5 and l <25.5:
+            s = 8
+            l0 = 24
+            
+        l = l* np.pi / 180
+        l0 = l0 * np.pi / 180
+        d_l = l - l0
+
+        A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
+        A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
+        A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
+        A6 = (35 * (self.e2**3))/3072 
+        
+
+        sig = self.a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
+        
+        xgk = sig + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
+        ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
+        
+        x00 =m * xgk
+        y00 =m * ygk + (s*1000000) + 500000
+         
+        return(x00, y00)
     
     
     
