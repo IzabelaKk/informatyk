@@ -5,7 +5,7 @@ import argparse
 
 class transformacje():
     
-    def __init__(self, model: str):
+    def __init__(self, model: str = "wgs 84"):
         """
         
         Parametry elipsolidy:
@@ -32,6 +32,16 @@ class transformacje():
         self.e = sqrt(2 * self.f - self.f ** 2) 
         self.e2 = (2 * self.f - self.f ** 2) 
             
+    
+            
+    def danezpl(txt):
+        with open(txt, 'r') as plik:
+            dane = []
+            for linie in plik:
+                linie = linie.strip()
+                czesci = linie.split(',')
+                dane.append([float(i) for i in parts])
+        return dane
             
     def dms(self, txt, x):
         """
