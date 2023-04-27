@@ -40,14 +40,12 @@ class transformacje():
             for linie in plik:
                 linie = linie.strip()
                 czesci = linie.split(',')
-                dane.append([float(i) for i in parts])
+                dane.append([float(i) for i in czesci])
         return dane
     
-    def wyniki(self, plik1, funkcja, plik2):
-        dane = rdanezpl(plik1)
-        wyniki = funkcja(dane)
-        with open(plik2, 'w') as file:
-            file.write(str(wyniki))
+    def wyniki(self, plik, wyniki):
+        with open(plik, 'w') as plik:
+            plik.write(str(wyniki))
             
     def dms(self, txt, x):
         """
@@ -126,6 +124,8 @@ class transformacje():
         lam - długośc geodezyjna w stopniach dziesiętnych
         h - wysokość elipsoidalna w metrach
         """
+
+        
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
         while True:
@@ -137,6 +137,7 @@ class transformacje():
                 break
         l = np.arctan2(Y,X)
         return(degrees(f), degrees(l), h)
+        ('wyniki.txt')
     
     def flh2XYZ(self, f, l, h):
         """
