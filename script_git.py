@@ -109,13 +109,11 @@ class transformacje():
         """
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
-        #self.dms('f', f)
         while True:
             N = self.Np()
             fpop = f
             h = (p/np.cos(f))-N
             fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
-            #self.dms('f', f)
             if abs(fpop-f) < (0.000001/206265):
                 break
         l = np.arctan2(Y,X)
@@ -250,17 +248,27 @@ class transformacje():
          
         return(x00, y00)
     
-    def Rneu(f,l):
+    
+    def XYZ2neu(self, dXYZ, f, l, s, alfa, z):
+        p = np.sqrt(X**2 + Y**2)
+        f = np.arctan(Z/(p*(1-self.e2)))
+        while True:
+            N = self.Np()
+            fpop = f
+            h = (p/np.cos(f))-N
+            fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+            if abs(fpop-f) < (0.000001/206265):
+                break
+        l = np.arctan2(Y,X)
+        
         R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * cos(l)],
                       [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
                       [np.cos(f), 0, np.sin(f)]])
-        return(R)
-    
         
-    def XYZ2neu(dXYZ, f, l):
-        R = Rneu(f,l)
-        return(R.T @ dXYZ)
-    
+        dneu = np.array([s * np.sin(z) * np.cos(alfa),
+                         s * np.sin(z) * np.sin(alfa),
+                         s * cos(z)])
+        return(dneu[0], dneu[1], dneu[2])
     
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
@@ -288,5 +296,7 @@ if __name__ == "__main__":
      args = pars.parse_args()
      print(args)
      #funkcja = getattr(trans, args.method[0])
+     
+#with open(wyniki.txt, 'w') as plik:
      
     
