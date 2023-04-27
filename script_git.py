@@ -129,9 +129,9 @@ class transformacje():
         Parametry:
         ----------
         f : FLOAT
-            szerokosć geodezyjna wyrażona w radianach ?????????????????
+            szerokosć geodezyjna wyrażona w stopniach dziesiętnych
         l : FLOAT
-            długosć geodezyjna wyrażona w radianach
+            długosć geodezyjna wyrażona w stopniach dziesiętnych
         h : FLOAT
             wysokosć elipsoidalna wyrażona w metrach
 
@@ -142,6 +142,8 @@ class transformacje():
         Z - [metry]
 
         """
+        f = f * pi / 180
+        l = l * pi / 180
         N = self.Np()
         X = (N + h) * cos(f) * cos(l)
         Y = (N + h) * cos(f) * sin(l)
