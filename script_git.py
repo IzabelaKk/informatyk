@@ -53,7 +53,11 @@ class transformacje():
         d = int(x)
         m = int(60 * (x - d))
         s = (x - d - m/60)*3600
+
+        print(txt,sig,'%3d' % d,'°', '%2d' % m,"'",'%7.5f' % s,'"')
+
         return f"{txt} {sig} {d:3d}° {m:2d}' {s:7.5f}\""
+
         
         
         
@@ -84,7 +88,15 @@ class transformacje():
         
         Zwraca:
         -------
+<<<<<<< HEAD
+<<<<<<< HEAD
+        Wartosć primienia przekroju normalnego w kierunku głównym
+=======
         Wartosć promienia przekroju normalnego w kierunku głównym
+>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
+=======
+        Wartosć promienia przekroju normalnego w kierunku głównym
+>>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
 
         """
         M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(f)**2)**3)
@@ -109,6 +121,24 @@ class transformacje():
         """
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+#<<<<<<< HEAD
+        f_deg = dms(f)
+        while True:
+            N = Np(f_deg, self.a, self.e2)
+            h = (p/np.cos(f_deg))-N
+            fpop = f_deg
+            f_deg = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+            dms(f)
+            if abs(fpop-f_deg) < (0.000001/206265):
+                break
+            l = np.arctan2(Y,X)
+            return(f_deg,l,h)
+=======
+        #self.dms('f', f)
+>>>>>>> fdae8ee9e61a919b1a8f47d9d60c041be7850b57
         while True:
             N = self.Np()
             fpop = f
@@ -169,10 +199,55 @@ class transformacje():
             t = np.tan(f)
             e_2 = self.e2/(1-self.e2)
             n2 = e_2 * (np.cos(f))**2
+>>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
         
             l0 = 19 * np.pi / 180
             d_l = l - l0
         
+<<<<<<< HEAD
+#=======
+        self.dms('f', f)
+        while True:
+            N = self.Np()
+            h = (p/np.cos(f))-N
+            fpop = f
+            fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+            self.dms('f', f)
+            if abs(fpop-f) < (0.000001/206265):
+                break
+        l = np.arctan2(Y,X)
+        return(degrees(f), degrees(l), h)
+    
+    def flh2XYZ(self, f, l, h):
+        """
+        Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
+
+        Parametry:
+        ----------
+        f : FLOAT
+            szerokosć geodezyjna wyrażona w radianach ?????????????????
+        l : FLOAT
+            długosć geodezyjna wyrażona w radianach
+        h : FLOAT
+            wysokosć elipsoidalna wyrażona w metrach
+
+        Returns
+        -------
+        X - [metry]
+        Y - [metry]
+        Z - [metry]
+
+        """
+        N = self.Np()
+        X = (N + h) * cos(f) * cos(l)
+        Y = (N + h) * cos(f) * sin(l)
+        Z = (N * (1 - self.e2) + h) * sin(f)
+        return(X,Y,Z)
+    
+    
+    
+#>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
+=======
             A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
             A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
             A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
@@ -270,10 +345,23 @@ class transformacje():
                          s * cos(z)])
         return(dneu[0], dneu[1], dneu[2])
     
+>>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3664940.500; Y = 1409153.590; Z = 5009571.170
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
+<<<<<<< HEAD
+#<<<<<<< HEAD
+    print(phi, lam, h)
+    
+#=======
+    print(phi, lam, h)  #h do poprawy
+
+#if __name__ == "__main__":
+ #   orto = transformacje(model = "wgs84")
+    
+#>>>>>>> 4c76b8d91dd73e87311b0fd3864198eeda45661d
+=======
     print(phi, lam, h)  #h do poprawy
 
 #if __name__ == "__main__":
@@ -300,3 +388,4 @@ if __name__ == "__main__":
 #with open(wyniki.txt, 'w') as plik:
      
     
+>>>>>>> 02a12450d2fbcffb2c8071f7ec071d39a387a2d5
