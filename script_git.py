@@ -109,13 +109,13 @@ class transformacje():
         """
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
-        self.dms('f', f)
+        #self.dms('f', f)
         while True:
             N = self.Np()
             fpop = f
             h = (p/np.cos(f))-N
             fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
-            self.dms('f', f)
+            #self.dms('f', f)
             if abs(fpop-f) < (0.000001/206265):
                 break
         l = np.arctan2(Y,X)
@@ -250,28 +250,14 @@ class transformacje():
          
         return(x00, y00)
     
-    def XYZ2neu(self, dXYZ, f, l):
-        """
-        
-
-        Parameters
-        ----------
-        dXYZ : TYPE
-            DESCRIPTION.
-        f : TYPE
-            DESCRIPTION.
-        l : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
-        Rneu = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * cos(l)],
+    def Rneu(f,l):
+        R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * cos(l)],
                       [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
                       [np.cos(f), 0, np.sin(f)]])
+        return(R)
+    
         
+    def XYZ2neu(dXYZ, f, l):
         R = Rneu(f,l)
         return(R.T @ dXYZ)
     
