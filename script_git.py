@@ -287,6 +287,6 @@ if __name__ == "__main__":
      
      args = pars.parse_args()
      print(args)
-     funkcja = getattr(trans, args.method[0])
+     #funkcja = getattr(trans, args.method[0])
      
     
