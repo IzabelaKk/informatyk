@@ -42,6 +42,12 @@ class transformacje():
                 czesci = linie.split(',')
                 dane.append([float(i) for i in parts])
         return dane
+    
+    def wyniki(plik1, funkcja, plik2):
+        dane = rdanezpl(plik1)
+        wyniki = funkcja(dane)
+        with open(plik2, 'w') as file:
+            file.write(str(wyniki))
             
     def dms(self, txt, x):
         """
