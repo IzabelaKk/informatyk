@@ -34,7 +34,7 @@ class transformacje():
             
     
             
-    def danezpl(txt):
+    def danezpl(self, txt):
         with open(txt, 'r') as plik:
             dane = []
             for linie in plik:
@@ -43,7 +43,7 @@ class transformacje():
                 dane.append([float(i) for i in parts])
         return dane
     
-    def wyniki(plik1, funkcja, plik2):
+    def wyniki(self, plik1, funkcja, plik2):
         dane = rdanezpl(plik1)
         wyniki = funkcja(dane)
         with open(plik2, 'w') as file:
@@ -217,9 +217,9 @@ class transformacje():
         Parametry:
         ----------
         f : FLOAT
-            szerokosć geodezyjna wyrażona w radianach ?????????????????
+            szerokosć geodezyjna wyrażona w stopniach dziesiętnych
         l : FLOAT
-            długosć geodezyjna wyrażona w radianach
+            długosć geodezyjna wyrażona w stopniach dziesiętnych
         h : FLOAT
             wysokosć elipsoidalna wyrażona w metrach
 
@@ -230,6 +230,8 @@ class transformacje():
         Z - [metry]
 
         """
+        f = f * pi / 180
+        l = l * pi / 180
         N = self.Np()
         X = (N + h) * cos(f) * cos(l)
         Y = (N + h) * cos(f) * sin(l)
