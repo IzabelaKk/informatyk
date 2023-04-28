@@ -322,7 +322,7 @@ class transformacje():
                          s * np.sin(z) * np.sin(alfa),
                          s * cos(z)])
         return(dneu[0], dneu[1], dneu[2])
-    
+"""    
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
@@ -331,14 +331,14 @@ if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
     
-    
+"""    
 """
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3853110.000; Y = 1425020.000; Z = 4863030.000
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
-    print('f: ', round(phi,5), 'l: ', round(lam,5), 'h: ', round(h, 3))
-    
+    print('f:', round(phi,5), 'l:', round(lam,5), 'h:', round(h, 3))
+   
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
