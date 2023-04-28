@@ -1,6 +1,6 @@
 from math import *
 import numpy as np
-import argparse
+from argparse import ArgumentParser
 
 
 class transformacje():
