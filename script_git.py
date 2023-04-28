@@ -389,8 +389,8 @@ if __name__ == "__main__":
     
     parser = ArgumentParser()
   
-    parser.add_argument('-d', type = str, help = 'Plik nie znajduje się w odpowiednim folderze. Podaj scieżkę do pliku.')
-    parser.add_argument('-t', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
+    parser.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
+    parser.add_argument('-tr', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
     parser.add_argument('-e', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
     arg = parser.parse_args()
@@ -399,14 +399,17 @@ if __name__ == "__main__":
     koniec = ""
     try:
         while koniec != "koniec":
-            if arg.d--None:
-                arg.d = input(str('Podaj lokalizację pliku txt'))
-            if arg.t--None:
-                arg.t = input(str('Transformacja:')).upper()
+            if arg.plik--None:
+                arg.p = input(str('Podaj lokalizację pliku txt'))
+            if arg.tr--None:
+                arg.tr = input(str('Transformacja:')).upper()
             if arg.r--None:
                 arg.r = input(str('Model elipsoidy')).upper()
             el = transformacje()
-            trans = transformacje_wsp[arg.t)]
+            trans = transformacje_wsp[arg.t]
+            if trans -- 'XYZ2flh':
+                zapytaj = el.XYZ2flh(arg.p)
+                
             
 #funkcja = getattr(trans, args.method[0])
      
