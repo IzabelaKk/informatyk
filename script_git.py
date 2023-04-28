@@ -435,7 +435,18 @@ if __name__ == "__main__":
             arg.tr = None
             arg.el = None
             
-            print(arg)
+    except FileNotFoundError:
+        print('Nie znaleziono pliku.')
+    except IndexError:
+        print('Format danych jest niepoprawny.')
+    except ValueError:
+        print('Format danych jest niepoprawny.')
+    except KeyError:
+        print('Niewlasciwe paramerty.')
+
+    finally:
+        print('Program zakończył pracę.')
+            
 
 #funkcja = getattr(trans, args.method[0])
      
