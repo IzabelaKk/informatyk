@@ -149,6 +149,7 @@ class transformacje():
         l = np.arctan2(Y,X)
         return(degrees(f), degrees(l), h)
 
+
     
 
     
@@ -185,7 +186,7 @@ class transformacje():
             Y = (N + h) * cos(f) * sin(l)
             Z = (N * (1 - self.e2) + h) * sin(f)
             wyn.append([X, Y, Z])
-        with open('wyniki.txt', 'w') as p:
+        with open('wyniki_BLH2XYZ.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
             for j in wyn:
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
@@ -324,7 +325,12 @@ class transformacje():
     
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    ooo = geo.flh2XYZ('test1.txt')
+    ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
+    
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
+    
     
 """
 if __name__ == "__main__":
@@ -374,7 +380,7 @@ if __name__ == "__main__":
     args = pars.parse_args()
     print(args)
     """
-
+"""
 if __name__ == "__main__":
     
     parser = ArgumentParser()
@@ -389,6 +395,18 @@ if __name__ == "__main__":
     stop = ""
     
     try:
+<<<<<<< HEAD
+        while koniec != "koniec":
+            if arg.d--None:
+                arg.d = input(str('Podaj lokalizację pliku txt'))
+            if arg.t--None:
+                arg.t = input(str('Transformacja:')).upper()
+            if arg.r--None:
+                arg.r = input(str('Model elipsoidy')).upper()
+            el = transformacje()
+            trans = transformacje_wsp[arg.t] 
+            """
+=======
         while stop != "stop":
             if arg.plik == None:
                 arg.plik = input(str('Podaj lokalizację pliku txt'))
@@ -439,3 +457,4 @@ if __name__ == "__main__":
 
 
 
+>>>>>>> ae5bef669185e23c09f4de5d0368939ce4368340
