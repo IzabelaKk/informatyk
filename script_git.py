@@ -54,6 +54,8 @@ class transformacje():
     def wyniki(self, plik, wyniki):
         with open(plik, 'w') as plik:
             plik.write(str(wyniki))
+    
+    
 
             
     def dms(self, txt, x):
@@ -383,15 +385,17 @@ if __name__ == "__main__":
     
     parser = ArgumentParser()
   
-    parser.add_argument('-d', type = str, help = 'Plik nie znajduje się w odpowiednim folderze. Podaj scieżkę do pliku.')
-    parser.add_argument('-t', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
-    parser.add_argument('-e', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
+    parser.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
+    parser.add_argument('-tr', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
+    parser.add_argument('-el', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
     arg = parser.parse_args()
     transformacje_wsp = {'XYZ2flh':'XYZ2flh','flh2XYZ':'flh2XYZ', 'u1992':'u1992', 'u2000':'u2000', 'XYZ2neu':'XYZ2neu'}
     
-    koniec = ""
+    stop = ""
+    
     try:
+<<<<<<< HEAD
         while koniec != "koniec":
             if arg.d--None:
                 arg.d = input(str('Podaj lokalizację pliku txt'))
@@ -402,3 +406,44 @@ if __name__ == "__main__":
             el = transformacje()
             trans = transformacje_wsp[arg.t] 
             """
+=======
+        while stop != "stop":
+            if arg.plik == None:
+                arg.plik = input(str('Podaj lokalizację pliku txt'))
+            if arg.tr == None:
+                arg.tr = input(str('Transformacja:')).upper()
+            if arg.el == None:
+                arg.el = input(str('Model elipsoidy')).upper()
+            elip = transformacje()
+            trans = transformacje_wsp[arg.t]
+            if trans == 'XYZ2flh':
+                zapytaj = elip.XYZ2flh(arg.plik, arg.el)
+            if trans == 'flh2XYZ':
+                zapytaj = elip.flh2XYZ(arg.plik, arg.el)
+            if trans == 'u1992':
+                zapytaj = elip.u1992(arg.plik, arg.el)
+            if trans == 'u2000':
+                zapytaj = elip.u2000(arg.plik, arg.el)
+            if trans == 'XYZ2neu':
+                zapytaj = elip.XYZ2neu(arg.plik, arg.el)
+                
+            print('Raport zapisany w folderze')
+            
+            stop = input(str("Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.")).upper()
+                
+            arg.plik = None
+            arg.tr = None
+            arg.el = None
+            
+            print(arg)
+
+#funkcja = getattr(trans, args.method[0])
+     
+
+
+
+
+
+
+
+>>>>>>> ae5bef669185e23c09f4de5d0368939ce4368340
