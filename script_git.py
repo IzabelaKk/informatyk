@@ -12,7 +12,7 @@ class transformacje():
         ----------
         a - duża półoś elispoidy
         b - mała półoś elipsoidy
-        f - spłaszczenie
+        flat - spłaszczenie
         e - mimośród
         e2 - mimośród podniesiony do kwadratu
 
@@ -28,10 +28,11 @@ class transformacje():
             self.b = 6356863.019  #jakby był potrzebny mimosrod i f http://uriasz.am.szczecin.pl/naw_bezp/elipsoida.html
         else:
             raise NotImplementedError(f"{model} nie został zaimplementowany")
-        self.f = (self.a - self.b) / self.a
-        self.e = sqrt(2 * self.f - self.f ** 2) 
-        self.e2 = (2 * self.f - self.f ** 2) 
-            
+        self.flat = (self.a - self.b) / self.a
+        self.e = sqrt(2 * self.flat - self.flat ** 2) 
+        self.e2 = (2 * self.flat - self.flat ** 2)
+        
+
             
     def dms(self, txt, x):
         """
@@ -61,7 +62,7 @@ class transformacje():
         
         
         
-    def Np(self):
+    def Np(self,f):
         """
         Funkcja okreslająca przekrój poprzeczny w I wertykale
         -------
@@ -74,7 +75,7 @@ class transformacje():
         Wartosć przekroju poprzecznego w I wetykale
 
         """
-        N = self.a / np.sqrt(1 - self.e2 * np.sin(self.f)**2)
+        N = self.a / np.sqrt(1 - self.e2 * np.sin(f)**2)
         return(N)
     
     
@@ -90,7 +91,7 @@ class transformacje():
         -------
         Wartosc promienia przekroju przekroju normalnego w kierunku głównym. 
         """
-        M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(f)**2)**3)
+        M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(flat)**2)**3)
         return(M)
             
             
@@ -113,7 +114,7 @@ class transformacje():
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
         while True:
-            N = self.Np()
+            N = self.Np(f)
             fpop = f
             h = (p/np.cos(f))-N
             fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
@@ -121,6 +122,8 @@ class transformacje():
                 break
         l = np.arctan2(Y,X)
         return(degrees(f), degrees(l), h)
+    
+
     
     def flh2XYZ(self, f, l, h):
         """
@@ -142,7 +145,7 @@ class transformacje():
         Z - [metry]
 
         """
-        N = self.Np()
+        N = self.Np(f)
         X = (N + h) * cos(f) * cos(l)
         Y = (N + h) * cos(f) * sin(l)
         Z = (N * (1 - self.e2) + h) * sin(f)
@@ -156,19 +159,19 @@ class transformacje():
         Parametry:
         ---------
         f:  FLOAT
-        szerokoć geodezyjna
+        szerokoć geodezyjna wyrażona w radianach
         l:  FLOAT
-        długoć geodezyjna 
+        długoć geodezyjna wyrażona w radianach
         Returns:
         ---------
         x:  FLOAT
-        szerokosc prostkątna lokalna
+        szerokosc prostkątna lokalna wyrażona w metrach
         y:  FLOAT
-        długosc prostokątna lokalna
+        długosc prostokątna lokalna wyrażona w metrach
 
         """
         m = 0.9993
-        N = self.Np()
+        N = self.Np(f)
         t = np.tan(f)
         e_2 = self.e2/(1-self.e2)
         n2 = e_2 * (np.cos(f))**2
@@ -181,7 +184,7 @@ class transformacje():
         A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
         A6 = (35 * (self.e2**3))/3072 
     
-        sigma = a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
+        sigma = self.a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
     
         xgk = sigma + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
         ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
@@ -191,32 +194,6 @@ class transformacje():
         
         return (x92, y92)
         
-    
-    def flh2XYZ(self, f, l, h):
-        """
-        Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
-
-        Parametry:
-        ----------
-        f : FLOAT
-            szerokosć geodezyjna wyrażona w radianach ?????????????????
-        l : FLOAT
-            długosć geodezyjna wyrażona w radianach
-        h : FLOAT
-            wysokosć elipsoidalna wyrażona w metrach
-
-        Returns
-        -------
-        X - [metry]
-        Y - [metry]
-        Z - [metry]
-
-        """
-        N = self.Np()
-        X = (N + h) * cos(f) * cos(l)
-        Y = (N + h) * cos(f) * sin(l)
-        Z = (N * (1 - self.e2) + h) * sin(f)
-        return(X,Y,Z)
     
     
     def u2000(self, f, l):
@@ -228,19 +205,19 @@ class transformacje():
         Parametry:
         ---------
         f:  FLOAT
-            szerokoć geodezyjna
+            szerokoć geodezyjna wyrażona w radianach
         l:  FLOAT
-            długoć geodezyjna 
+            długoć geodezyjna wyrażona w radianach
         Returns:
         ---------
         x:  FLOAT
-            szerokosc prostkątna lokalna
+            szerokosc prostkątna lokalna wyrażona w metrach
         y:  FLOAT
-            długosc prostokątna lokalna
+            długosc prostokątna lokalna wyrażona w metrach
 
         """
         m = 0.999923
-        N=self.Np()
+        N=self.Np(f)
         t = np.tan(f)
         e_2 = self.e2/(1-self.e2)
         n2 = e_2 * (np.cos(f))**2
@@ -284,7 +261,7 @@ class transformacje():
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
         while True:
-            N = self.Np()
+            N = self.Np(f)
             fpop = f
             h = (p/np.cos(f))-N
             fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
@@ -304,16 +281,39 @@ class transformacje():
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    X = 3664940.500; Y = 1409153.590; Z = 5009571.170
+    X = 3853110.000; Y = 1425020.000; Z = 4863030.000
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
-    print(phi, lam, h)
+    print('f: ', round(phi,5), 'l: ', round(lam,5), 'h: ', round(h, 3))
     
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
+    X, Y, Z = geo.flh2XYZ(f, l, h)
+    print('X: ', round(X,3), 'Y: ', round(Y,3), 'Z: ', round(Z, 3))
+
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
+    x92, y92 = geo.u1992(f, l)
+    print('x92: ', round(x92, 3), 'y92: ', round(y92,3))
+
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
+    x00, y00 = geo.u2000(f, l)
+    print('x00: ', round(x00, 3), 'y00: ', round(y00,3))
+    
+"""if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    X = 0.8726510197633319; Y = 0.3542359357681509; Z = 387.3190605593845
+    n, e, u = geo.XYZ2neu(dXYZ, f, l, s, alfa, z)
+    print(n, e, u)"""
  
-""" tu cos nie gra chyba trzeba zrobic ta inna wersje
- 
+ #tu cos nie gra chyba trzeba zrobic ta inna wersje
+"""
 if __name__ == "__main__":
     
-    trans = transformacje()
+    trans = transformacje(self.model)
     pars = argparse.ArgumentParser(description = "Transformacje współrzędnych")
     pars.add_argument(dest = "Metoda", metavar = 'M', nargs = 1, type = str,
                       help = 'napisz nazwe metody (wymienic metody)')
@@ -324,9 +324,21 @@ if __name__ == "__main__":
                       help = 'wsp do zamiany')
     
     args = pars.parse_args()
-    print(args)"""
+    print(args)
+    """
+"""
+if __name__ == "__main__":
     
+    parser = ArgumentParser()
+  
+    parser.add_argument('-d', type = str, help = 'Plik nie znajduje się w odpowiednim folderze. Podaj scieżkę do pliku.')
+    parser.add_argument('-t', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
+    parser.add_argument('-e', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
+    
+    args = parser.parse_args()
 #funkcja = getattr(trans, args.method[0])
      
 #with open(wyniki.txt, 'w') as plik:
+"""
+
 
