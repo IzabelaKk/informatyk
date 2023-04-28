@@ -40,15 +40,16 @@ class transformacje():
         self.e2 = (2 * self.f - self.f ** 2) 
             
     
-            
+    
     def danezpl(self, txt):
         with open(txt, 'r') as plik:
+            linie = plik.readlines()
             dane = []
-            for linie in plik:
-                linie = linie.strip()
-                czesci = linie.split(',')
-                dane.append([float(i) for i in czesci])
-        return dane
+            for i in linie:
+                i = i.replace(',', ' ').split()
+                dane.append([float(j) for j in i])
+                return dane
+
     
     def wyniki(self, plik, wyniki):
         with open(plik, 'w') as plik:
@@ -145,11 +146,11 @@ class transformacje():
                 break
         l = np.arctan2(Y,X)
         return(degrees(f), degrees(l), h)
-        ('wyniki.txt')
+
     
 
     
-    def flh2XYZ(self, f, l, h):
+    def flh2XYZ(self, plik):
         """
         Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
 
@@ -169,16 +170,24 @@ class transformacje():
         Z - [metry]
 
         """
+        dane = self.danezpl(plik)
+        wyn = []
+        for i in dane:
+            f, l, h = i
+            N = self.Np(f)
 
-        N = self.Np(f)
+            f = f * pi / 180
+            l = l * pi / 180
 
-        f = f * pi / 180
-        l = l * pi / 180
-
-        X = (N + h) * cos(f) * cos(l)
-        Y = (N + h) * cos(f) * sin(l)
-        Z = (N * (1 - self.e2) + h) * sin(f)
-        return(X,Y,Z)
+            X = (N + h) * cos(f) * cos(l)
+            Y = (N + h) * cos(f) * sin(l)
+            Z = (N * (1 - self.e2) + h) * sin(f)
+            wyn.append([X, Y, Z])
+        with open('wyniki.txt', 'w') as p:
+            p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
+            for j in wyn:
+                p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
+            return(wyn)
     
     def u1992(self, f, l):
         """
@@ -225,32 +234,7 @@ class transformacje():
         
     
 
-    def flh2XYZ(self, f, l, h):
-        """
-        Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
 
-        Parametry:
-        ----------
-        f : FLOAT
-            szerokosć geodezyjna wyrażona w stopniach dziesiętnych
-        l : FLOAT
-            długosć geodezyjna wyrażona w stopniach dziesiętnych
-        h : FLOAT
-            wysokosć elipsoidalna wyrażona w metrach
-
-        Returns
-        -------
-        X - [metry]
-        Y - [metry]
-        Z - [metry]
-
-        """
-
-        N = self.Np(f)
-        X = (N + h) * cos(f) * cos(l)
-        Y = (N + h) * cos(f) * sin(l)
-        Z = (N * (1 - self.e2) + h) * sin(f)
-        return(X,Y,Z)
     
 
     
@@ -315,7 +299,7 @@ class transformacje():
         return(x00, y00)
     
     
-    def XYZ2neu(self, dXYZ, f, l, s, alfa, z):
+    def XYZ2neu(self, f, l, s, alfa, z):
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
         while True:
@@ -336,7 +320,11 @@ class transformacje():
                          s * cos(z)])
         return(dneu[0], dneu[1], dneu[2])
     
-
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    ooo = geo.flh2XYZ('test1.txt')
+    
+"""
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3853110.000; Y = 1425020.000; Z = 4863030.000
@@ -361,7 +349,7 @@ if __name__ == "__main__":
     x00, y00 = geo.u2000(f, l)
     print('x00: ', round(x00, 3), 'y00: ', round(y00,3))
     
-"""if __name__ == "__main__":
+if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 0.8726510197633319; Y = 0.3542359357681509; Z = 387.3190605593845
     n, e, u = geo.XYZ2neu(dXYZ, f, l, s, alfa, z)
@@ -396,7 +384,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 #funkcja = getattr(trans, args.method[0])
      
-#with open(wyniki.txt, 'w') as plik:
+
 """
 
 
