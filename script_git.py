@@ -119,7 +119,8 @@ class transformacje():
         return(M)
             
             
-    def XYZ2flh(self, X, Y, Z):
+
+    def XYZ2flh(self, plik):
         """
         Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich (x, y, z)
         na współrzędne geodezyjne długość szerokość i wysokośc elipsoidalna (phi, lam, h). Jest to proces iteracyjny. 
@@ -135,19 +136,27 @@ class transformacje():
         lam - długośc geodezyjna w stopniach dziesiętnych
         h - wysokość elipsoidalna w metrach
         """
-
+        dane = self.danezpl(plik)
+        wyn = []
+        for i in dane:
+            X, Y, Z = i
         
-        p = np.sqrt(X**2 + Y**2)
-        f = np.arctan(Z/(p*(1-self.e2)))
-        while True:
-            N = self.Np(f)
-            fpop = f
-            h = (p/np.cos(f))-N
-            fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
-            if abs(fpop-f) < (0.000001/206265):
-                break
-        l = np.arctan2(Y,X)
-        return(degrees(f), degrees(l), h)
+            p = np.sqrt(X**2 + Y**2)
+            f = np.arctan(Z/(p*(1-self.e2)))
+            while True:
+                N = self.Np(f)
+                fpop = f
+                h = (p/np.cos(f))-N
+                fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+                if abs(fpop-f) < (0.000001/206265):
+                    break
+                l = np.arctan2(Y,X)
+                wyn.append([degrees(f), degrees(l), h])
+            with open('wyniki_XYZ2BLH.txt', 'w') as p:
+                p.write('{:^10s} {:^10s} {:^10s} \n'.format('B[°]','L[°]','H[m]'))
+                for j in wyn:
+                    p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
+            return(wyn)
 
 
     
@@ -174,9 +183,9 @@ class transformacje():
 
         """
         dane = self.danezpl(plik)
-        wyn = []
+        wynik = []
         for i in dane:
-            f, l, h = i
+            nr, f, l, h = i
             N = self.Np(f)
 
             f = f * pi / 180
@@ -185,12 +194,16 @@ class transformacje():
             X = (N + h) * cos(f) * cos(l)
             Y = (N + h) * cos(f) * sin(l)
             Z = (N * (1 - self.e2) + h) * sin(f)
-            wyn.append([X, Y, Z])
-        with open('wyniki_BLH2XYZ.txt', 'w') as p:
-            p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
-            for j in wyn:
-                p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
-            return(wyn)
+            wynik.append([nr, X, Y, Z])
+        with open('wyniki_flh2XYZ.txt', 'w') as p:
+            p.write('{:^10s} {:^10s} {:^10s} {:^10s} \n'.format('Nr','X[m]','Y[m]','Z[m]'))
+            for j in wynik:
+                p.write('{:^10s} {:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2], j[3]))
+            return(wynik)
+
+        if _name_ == "_main_":
+            geo = transformacje(model = "wgs84")
+            ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
     
     def u1992(self, f, l):
         """
