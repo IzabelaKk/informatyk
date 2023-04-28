@@ -365,31 +365,16 @@ if __name__ == "__main__":
  
 
 """
-if __name__ == "__main__":
-    
-    trans = transformacje(self.model)
-    pars = argparse.ArgumentParser(description = "Transformacje współrzędnych")
-    pars.add_argument(dest = "Metoda", metavar = 'M', nargs = 1, type = str,
-                      help = 'napisz nazwe metody (wymienic metody)')
-    pars.add_argument(dest = 'Załączanie danych', metavar = 'L', nargs = 1, type = str,
-                      help = 'jak chcesz wprowadzac tane txt, input')
-        
-    pars.add_argument(dest = 'dane', metavar = 'D', type = float, nargs = '+',
-                      help = 'wsp do zamiany')
-    
-    args = pars.parse_args()
-    print(args)
-    """
 
 if __name__ == "__main__":
     
-    parser = ArgumentParser()
+    ap = ArgumentParser()
   
-    parser.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
-    parser.add_argument('-tr', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
-    parser.add_argument('-el', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
+    ap.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
+    ap.add_argument('-tr', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
+    ap.add_argument('-el', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
-    arg = parser.parse_args()
+    arg = ap.parse_args()
     transformacje_wsp = {'XYZ2flh':'XYZ2flh','flh2XYZ':'flh2XYZ', 'u1992':'u1992', 'u2000':'u2000', 'XYZ2neu':'XYZ2neu'}
     
     stop = ""
@@ -415,7 +400,7 @@ if __name__ == "__main__":
             if trans == 'XYZ2neu':
                 zapytaj = elip.XYZ2neu(arg.plik, arg.el)
                 
-            print('Raport zapisany w folderze')
+            print('Raport został zapisany w folderze')
             
             stop = input(str("Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.")).upper()
                 
@@ -436,7 +421,7 @@ if __name__ == "__main__":
         print('Program zakończył pracę.')
             
 
-#funkcja = getattr(trans, args.method[0])
+
      
 
 
