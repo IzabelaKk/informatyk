@@ -379,34 +379,47 @@ if __name__ == "__main__":
   
     parser.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
     parser.add_argument('-tr', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
-    parser.add_argument('-e', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
+    parser.add_argument('-el', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
     arg = parser.parse_args()
     transformacje_wsp = {'XYZ2flh':'XYZ2flh','flh2XYZ':'flh2XYZ', 'u1992':'u1992', 'u2000':'u2000', 'XYZ2neu':'XYZ2neu'}
     
-    koniec = ""
+    stop = ""
+    
     try:
-        while koniec != "koniec":
-            if arg.plik--None:
-                arg.p = input(str('Podaj lokalizację pliku txt'))
-            if arg.tr--None:
+        while stop != "stop":
+            if arg.plik == None:
+                arg.plik = input(str('Podaj lokalizację pliku txt'))
+            if arg.tr == None:
                 arg.tr = input(str('Transformacja:')).upper()
-            if arg.r--None:
-                arg.r = input(str('Model elipsoidy')).upper()
-            el = transformacje()
+            if arg.el == None:
+                arg.el = input(str('Model elipsoidy')).upper()
+            elip = transformacje()
             trans = transformacje_wsp[arg.t]
-            if trans -- 'XYZ2flh':
-                zapytaj = el.XYZ2flh(arg.p)
+            if trans == 'XYZ2flh':
+                zapytaj = elip.XYZ2flh(arg.plik, arg.el)
+            if trans == 'flh2XYZ':
+                zapytaj = elip.flh2XYZ(arg.plik, arg.el)
+            if trans == 'u1992':
+                zapytaj = elip.u1992(arg.plik, arg.el)
+            if trans == 'u2000':
+                zapytaj = elip.u2000(arg.plik, arg.el)
+            if trans == 'XYZ2neu':
+                zapytaj = elip.XYZ2neu(arg.plik, arg.el)
                 
+            print('Raport zapisany w folderze')
             
+            stop = input(str("Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.")).upper()
+                
+            arg.plik = None
+            arg.tr = None
+            arg.el = None
 #funkcja = getattr(trans, args.method[0])
      
-<<<<<<< HEAD
 
-"""
-=======
+
+
 #with open(wyniki.txt, 'w') as plik:
 
->>>>>>> 39aa920ec3b0bf0da4b02ddd6b45d0f08950417d
 
 
