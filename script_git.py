@@ -5,7 +5,7 @@ import argparse
 
 class transformacje():
     
-    def __init__(self, model: str):
+    def __init__(self, model: str = "wgs 84"):
         """
         
         Parametry elipsolidy:
@@ -28,10 +28,31 @@ class transformacje():
             self.b = 6356863.019  #jakby był potrzebny mimosrod i f http://uriasz.am.szczecin.pl/naw_bezp/elipsoida.html
         else:
             raise NotImplementedError(f"{model} nie został zaimplementowany")
+
         self.flat = (self.a - self.b) / self.a
         self.e = sqrt(2 * self.flat - self.flat ** 2) 
         self.e2 = (2 * self.flat - self.flat ** 2)
         
+
+
+        self.f = (self.a - self.b) / self.a
+        self.e = sqrt(2 * self.f - self.f ** 2) 
+        self.e2 = (2 * self.f - self.f ** 2) 
+            
+    
+            
+    def danezpl(self, txt):
+        with open(txt, 'r') as plik:
+            dane = []
+            for linie in plik:
+                linie = linie.strip()
+                czesci = linie.split(',')
+                dane.append([float(i) for i in czesci])
+        return dane
+    
+    def wyniki(self, plik, wyniki):
+        with open(plik, 'w') as plik:
+            plik.write(str(wyniki))
 
             
     def dms(self, txt, x):
@@ -111,6 +132,8 @@ class transformacje():
         lam - długośc geodezyjna w stopniach dziesiętnych
         h - wysokość elipsoidalna w metrach
         """
+
+        
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
         while True:
@@ -122,6 +145,7 @@ class transformacje():
                 break
         l = np.arctan2(Y,X)
         return(degrees(f), degrees(l), h)
+        ('wyniki.txt')
     
 
     
@@ -132,9 +156,9 @@ class transformacje():
         Parametry:
         ----------
         f : FLOAT
-            szerokosć geodezyjna wyrażona w radianach ?????????????????
+            szerokosć geodezyjna wyrażona w stopniach dziesiętnych
         l : FLOAT
-            długosć geodezyjna wyrażona w radianach
+            długosć geodezyjna wyrażona w stopniach dziesiętnych
         h : FLOAT
             wysokosć elipsoidalna wyrażona w metrach
 
@@ -145,7 +169,12 @@ class transformacje():
         Z - [metry]
 
         """
+
         N = self.Np(f)
+
+        f = f * pi / 180
+        l = l * pi / 180
+
         X = (N + h) * cos(f) * cos(l)
         Y = (N + h) * cos(f) * sin(l)
         Z = (N * (1 - self.e2) + h) * sin(f)
@@ -195,6 +224,35 @@ class transformacje():
         return (x92, y92)
         
     
+
+    def flh2XYZ(self, f, l, h):
+        """
+        Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
+
+        Parametry:
+        ----------
+        f : FLOAT
+            szerokosć geodezyjna wyrażona w stopniach dziesiętnych
+        l : FLOAT
+            długosć geodezyjna wyrażona w stopniach dziesiętnych
+        h : FLOAT
+            wysokosć elipsoidalna wyrażona w metrach
+
+        Returns
+        -------
+        X - [metry]
+        Y - [metry]
+        Z - [metry]
+
+        """
+
+        N = self.Np(f)
+        X = (N + h) * cos(f) * cos(l)
+        Y = (N + h) * cos(f) * sin(l)
+        Z = (N * (1 - self.e2) + h) * sin(f)
+        return(X,Y,Z)
+    
+
     
     def u2000(self, f, l):
         """
