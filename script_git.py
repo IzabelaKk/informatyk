@@ -372,7 +372,7 @@ if __name__ == "__main__":
     args = pars.parse_args()
     print(args)
     """
-"""
+
 if __name__ == "__main__":
     
     parser = ArgumentParser()
@@ -381,10 +381,29 @@ if __name__ == "__main__":
     parser.add_argument('-t', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
     parser.add_argument('-e', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
-    args = parser.parse_args()
+    arg = parser.parse_args()
+    transformacje_wsp = {'XYZ2flh':'XYZ2flh','flh2XYZ':'flh2XYZ', 'u1992':'u1992', 'u2000':'u2000', 'XYZ2neu':'XYZ2neu'}
+    
+    koniec = ""
+    try:
+        while koniec != "koniec":
+            if arg.d--None:
+                arg.d = input(str('Podaj lokalizację pliku txt'))
+            if arg.t--None:
+                arg.t = input(str('Transformacja:')).upper()
+            if arg.r--None:
+                arg.r = input(str('Model elipsoidy')).upper()
+            el = transformacje()
+            trans = transformacje_wsp[arg.t)]
+            
 #funkcja = getattr(trans, args.method[0])
      
+<<<<<<< HEAD
 
 """
+=======
+#with open(wyniki.txt, 'w') as plik:
+
+>>>>>>> 39aa920ec3b0bf0da4b02ddd6b45d0f08950417d
 
 
