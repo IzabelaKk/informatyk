@@ -356,14 +356,14 @@ if __name__ == "__main__":
     f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
     x00, y00 = geo.u2000(f, l)
     print('x00: ', round(x00, 3), 'y00: ', round(y00,3))
-    
+  
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 0.8726510197633319; Y = 0.3542359357681509; Z = 387.3190605593845
     n, e, u = geo.XYZ2neu(dXYZ, f, l, s, alfa, z)
-    print(n, e, u)"""
+    print(n, e, u)
  
- #tu cos nie gra chyba trzeba zrobic ta inna wersje
+
 """
 if __name__ == "__main__":
     
@@ -380,7 +380,7 @@ if __name__ == "__main__":
     args = pars.parse_args()
     print(args)
     """
-"""
+
 if __name__ == "__main__":
     
     parser = ArgumentParser()
@@ -395,18 +395,6 @@ if __name__ == "__main__":
     stop = ""
     
     try:
-<<<<<<< HEAD
-        while koniec != "koniec":
-            if arg.d--None:
-                arg.d = input(str('Podaj lokalizację pliku txt'))
-            if arg.t--None:
-                arg.t = input(str('Transformacja:')).upper()
-            if arg.r--None:
-                arg.r = input(str('Model elipsoidy')).upper()
-            el = transformacje()
-            trans = transformacje_wsp[arg.t] 
-            """
-=======
         while stop != "stop":
             if arg.plik == None:
                 arg.plik = input(str('Podaj lokalizację pliku txt'))
@@ -457,4 +445,4 @@ if __name__ == "__main__":
 
 
 
->>>>>>> ae5bef669185e23c09f4de5d0368939ce4368340
+
