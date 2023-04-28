@@ -54,6 +54,8 @@ class transformacje():
     def wyniki(self, plik, wyniki):
         with open(plik, 'w') as plik:
             plik.write(str(wyniki))
+    
+    
 
             
     def dms(self, txt, x):
@@ -414,12 +416,15 @@ if __name__ == "__main__":
             arg.plik = None
             arg.tr = None
             arg.el = None
+            
+            print(arg)
+
 #funkcja = getattr(trans, args.method[0])
      
 
 
 
-#with open(wyniki.txt, 'w') as plik:
+
 
 
 
