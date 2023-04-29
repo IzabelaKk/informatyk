@@ -147,8 +147,8 @@ class transformacje():
                 fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
                 if abs(fpop-f) < (0.000001/206265):
                     break
-                l = np.arctan2(Y,X)
-                wynik.append([degrees(f), degrees(l), h])
+            l = np.arctan2(Y,X)
+            wynik.append([degrees(f), degrees(l), h])
         with open('wyniki_XYZ2flh.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('phi[°]','lam[°]','h[m]'))
             for j in wynik:
@@ -160,9 +160,10 @@ if __name__ == "__main__":
     wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
         
     
-    def flh2XYZ(self, plik): # f, l, h
+    def flh2XYZ(self, plik):
         """
         Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
+
         Parametry:
         ----------
         f : FLOAT
@@ -171,14 +172,16 @@ if __name__ == "__main__":
             długosć geodezyjna wyrażona w stopniach dziesiętnych
         h : FLOAT
             wysokosć elipsoidalna wyrażona w metrach
+
         Returns
         -------
         X - [metry]
         Y - [metry]
         Z - [metry]
+
         """
         dane = self.danezpl(plik)
-        wynik = []
+        wyn = []
         for i in dane:
             f, l, h = i
             N = self.Np(f)
@@ -189,17 +192,16 @@ if __name__ == "__main__":
             X = (N + h) * cos(f) * cos(l)
             Y = (N + h) * cos(f) * sin(l)
             Z = (N * (1 - self.e2) + h) * sin(f)
-            wynik.append([nr, X, Y, Z])
-            
-        with open('wyniki_flh2XYZ.txt', 'w') as p:
+            wyn.append([X, Y, Z])
+        with open('wyniki_BLH2XYZ.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
-            for j in wynik:
+            for j in wyn:
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
-        return(wynik)
+        return(wyn)
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.flh2XYZ('test_BLH2XYZ.txt')
+    ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
     
     def u1992(self, plik): #fi, lam
         """
@@ -221,32 +223,33 @@ if __name__ == "__main__":
         """
         dane = self.danezpl(plik)
         wynik = []
-        
-        m = 0.9993
-        N = self.Np(f)
-        t = np.tan(f)
-        e_2 = self.e2/(1-self.e2)
-        n2 = e_2 * (np.cos(f))**2
+        for i in dane:
+            f, l = i
+            m = 0.9993
+            N = self.Np(f)
+            t = np.tan(f)
+            e_2 = self.e2/(1-self.e2)
+            n2 = e_2 * (np.cos(f))**2
 
-        l0 = 19 * np.pi / 180
-        d_l = l - l0
+            l0 = 19 * np.pi / 180
+            d_l = l - l0
             
-        A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
-        A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
-        A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
-        A6 = (35 * (self.e2**3))/3072 
+            A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
+            A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
+            A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
+            A6 = (35 * (self.e2**3))/3072 
     
-        sigma = self.a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
+            sigma = self.a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
+            
+            xgk = sigma + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
+            ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
     
-        xgk = sigma + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
-        ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
-    
-        x92 = m*xgk - 5300000
-        y92 = m*ygk + 500000
-        
-        return (x92, y92)
+            x92 = m*xgk - 5300000
+            y92 = m*ygk + 500000
+            
+            wynik.append([x92, y92])
         with open('wyniki_1992.txt', 'w') as p:
-            p.write('{:^10s} {:^10s} \n'.format('X[m]','Y[m]'))
+            p.write('{:^10s} {:^10s} \n'.format('X 1992[m]','Y 1992[m]'))
             for j in wynik:
                 p.write('{:^10.3f} {:^10.3f}\n'.format(j[0], j[1]))
         return(wynik)
@@ -277,49 +280,48 @@ if __name__ == "__main__":
         """
         dane = self.danezpl(plik)
         wynik = []
+        for i in wynik:
+            m = 0.999923
+            N=self.Np(f)
+            t = np.tan(f)
+            e_2 = self.e2/(1-self.e2)
+            n2 = e_2 * (np.cos(f))**2
         
-        m = 0.999923
-        N=self.Np(f)
-        t = np.tan(f)
-        e_2 = self.e2/(1-self.e2)
-        n2 = e_2 * (np.cos(f))**2
-        
-        l = l * 180 / np.pi
-        if l>13.5 and l <16.5:
-            s = 5
-            l0 = 15
-        elif l>16.5 and l <19.5:
-            s = 6
-            l0 = 18
-        elif l>19.5 and l <22.5:
-            s = 7
-            l0 = 21
-        elif l>22.5 and l <25.5:
-            s = 8
-            l0 = 24
+            l = l * 180 / np.pi
+            if l>13.5 and l <16.5:
+                s = 5
+                l0 = 15
+            elif l>16.5 and l <19.5:
+                s = 6
+                l0 = 18
+            elif l>19.5 and l <22.5:
+                s = 7
+                l0 = 21
+            elif l>22.5 and l <25.5:
+                s = 8
+                l0 = 24
             
-        l = l* np.pi / 180
-        l0 = l0 * np.pi / 180
-        d_l = l - l0
+            l = l* np.pi / 180
+            l0 = l0 * np.pi / 180
+            d_l = l - l0
 
-        A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
-        A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
-        A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
-        A6 = (35 * (self.e2**3))/3072 
+            A0 = 1 - (self.e2/4) - ((3*(self.e2**2))/64) - ((5*(self.e2**3))/256)   
+            A2 = (3/8) * (self.e2 + ((self.e2**2)/4) + ((15 * (self.e2**3))/128))
+            A4 = (15/256) * (self.e2**2 + ((3*(self.e2**3))/4))
+            A6 = (35 * (self.e2**3))/3072 
         
 
-        sig = self.a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
+            sig = self.a * ((A0*f) - (A2*np.sin(2*f)) + (A4*np.sin(4*f)) - (A6*np.sin(6*f)))
         
-        xgk = sig + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
-        ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
+            xgk = sig + ((d_l**2)/2) * N *np.sin(f) * np.cos(f) * (1 + ((d_l**2)/12) * ((np.cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((d_l**4)/360) * ((np.cos(f))**4) * (61 - (58*(t**2)) + (t**4) + (270*n2) - (330 * n2 *(t**2))))
+            ygk = d_l * (N*np.cos(f)) * (1 + ((((d_l**2)/6) * (np.cos(f))**2) * (1-t**2+n2)) +  (((d_l**4)/(120)) * (np.cos(f)**4)) * (5 - (18 * (t**2)) + (t**4) + (14*n2) - (58*n2*(t**2))))
         
-        x00 =m * xgk
-        y00 =m * ygk + (s*1000000) + 500000
-         
-        return(x00, y00)
+            x00 =m * xgk
+            y00 =m * ygk + (s*1000000) + 500000
+            wynik.append([x00, y00])
 
         with open('wyniki_2000.txt', 'w') as p:
-            p.write('{:^10s} {:^10s} \n'.format('X[m]','Y[m]'))
+            p.write('{:^10s} {:^10s}\n'.format('X 2000[m]','Y 2000[m]'))
             for j in wynik:
                 p.write('{:^10.3f} {:^10.3f}\n'.format(j[0], j[1]))
         return(wynik)
@@ -332,31 +334,31 @@ if __name__ == "__main__":
     def XYZ2neu(self, plik): # X Y Z
         dane = self.danezpl(plik)
         wynik = []
+        for i in wynik:
+            X,Y,Z,Xk,Yk,Zk = i
+            p = np.sqrt(X**2 + Y**2)
+            f = np.arctan(Z/(p*(1-self.e2)))
+            while True:
+                N = self.Np(f)
+                fpop = f
+                h = (p/np.cos(f))-N
+                fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+                if abs(fpop-f) < (0.000001/206265):
+                    break
+                l = np.arctan2(Y,X)
         
-        X,Y,Z,Xk,Yk,Zk = i
-        p = np.sqrt(X**2 + Y**2)
-        f = np.arctan(Z/(p*(1-self.e2)))
-        while True:
-            N = self.Np(f)
-            fpop = f
-            h = (p/np.cos(f))-N
-            fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
-            if abs(fpop-f) < (0.000001/206265):
-                break
-        l = np.arctan2(Y,X)
+            R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * cos(l)],
+                          [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
+                          [np.cos(f), 0, np.sin(f)]])
         
-        R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * cos(l)],
-                      [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
-                      [np.cos(f), 0, np.sin(f)]])
+            dneu = np.array([s * np.sin(z) * np.cos(alfa),
+                             s * np.sin(z) * np.sin(alfa),
+                             s * cos(z)])
+            dXYZ = np.array([[Xk - X],[Yk - Y],[Zk - Z]])
+            neu = R.T @ dXYZ
+            wynik.append([neu[0][0], neu[1][0],neu[2][0]])
         
-        dneu = np.array([s * np.sin(z) * np.cos(alfa),
-                         s * np.sin(z) * np.sin(alfa),
-                         s * cos(z)])
-        dXYZ = np.array([[Xk - X],[Yk - Y],[Zk - Z]])
-        neu = R.T @ dXYZ
-        wynik.append([neu[0][0], neu[1][0],neu[2][0]])
-        
-        with open('raport_XYZ2NEU.txt', 'w') as plik:
+        with open('wyniki_XYZ2NEU.txt', 'w') as p:
             p.write( '{:^15s} {:^15s} {:^15s}\n'.format('n','e','u'))
             for j in wynik:
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
