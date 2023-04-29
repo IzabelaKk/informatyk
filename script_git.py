@@ -1,6 +1,6 @@
 from math import *
 import numpy as np
-import argparse
+from argparse import ArgumentParser
 
 
 class transformacje():
@@ -15,7 +15,6 @@ class transformacje():
         flat - spłaszczenie
         e - mimośród
         e2 - mimośród podniesiony do kwadratu
-
         """
         if model == "wgs84":
             self.a = 6378137
@@ -97,7 +96,6 @@ class transformacje():
         Zwraca:
         -------
         Wartosć przekroju poprzecznego w I wetykale
-
         """
         N = self.a / np.sqrt(1 - self.e2 * np.sin(f)**2)
         return(N)
@@ -118,7 +116,9 @@ class transformacje():
         M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(flat)**2)**3)
         return(M)
             
-    def XYZ2flh(self, plik):
+            
+
+    def XYZ2flh(self, plik): #x, y, z
         """
         Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich (x, y, z)
         na współrzędne geodezyjne długość szerokość i wysokośc elipsoidalna (phi, lam, h). Jest to proces iteracyjny. 
@@ -127,7 +127,6 @@ class transformacje():
         ----------
         X, Y, Z : FLOAT
              współrzędne w układzie orto-kartezjańskim, 
-
         Zwraca:
         -------
         phi - szerokość geodezyjna w stopniach dziesiętnych
@@ -135,7 +134,7 @@ class transformacje():
         h - wysokość elipsoidalna w metrach
         """
         dane = self.danezpl(plik)
-        wyn = []
+        wynik = []
         for i in dane:
             X, Y, Z = i
         
@@ -149,22 +148,21 @@ class transformacje():
                 if abs(fpop-f) < (0.000001/206265):
                     break
                 l = np.arctan2(Y,X)
-                wyn.append([degrees(f), degrees(l), h])
-            with open('wyniki_XYZ2BLH.txt', 'w') as p:
-                p.write('{:^10s} {:^10s} {:^10s} \n'.format('B[°]','L[°]','H[m]'))
-                for j in wyn:
-                    p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
-            return(wyn)
-
-               
-            
-
-
+                wynik.append([degrees(f), degrees(l), h])
+        with open('wyniki_XYZ2flh.txt', 'w') as p:
+            p.write('{:^10s} {:^10s} {:^10s} \n'.format('phi[°]','lam[°]','h[m]'))
+            for j in wynik:
+                p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
+        return(wynik)
     
-    def flh2XYZ(self, plik):
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
+        
+    
+    def flh2XYZ(self, plik): # f, l, h
         """
         Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
-
         Parametry:
         ----------
         f : FLOAT
@@ -173,16 +171,14 @@ class transformacje():
             długosć geodezyjna wyrażona w stopniach dziesiętnych
         h : FLOAT
             wysokosć elipsoidalna wyrażona w metrach
-
         Returns
         -------
         X - [metry]
         Y - [metry]
         Z - [metry]
-
         """
         dane = self.danezpl(plik)
-        wyn = []
+        wynik = []
         for i in dane:
             f, l, h = i
             N = self.Np(f)
@@ -193,14 +189,19 @@ class transformacje():
             X = (N + h) * cos(f) * cos(l)
             Y = (N + h) * cos(f) * sin(l)
             Z = (N * (1 - self.e2) + h) * sin(f)
-            wyn.append([X, Y, Z])
-        with open('wyniki_BLH2XYZ.txt', 'w') as p:
+            wynik.append([nr, X, Y, Z])
+            
+        with open('wyniki_flh2XYZ.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
-            for j in wyn:
+            for j in wynik:
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
-        return(wyn)
+        return(wynik)
+
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.flh2XYZ('test_BLH2XYZ.txt')
     
-    def u1992(self, f, l):
+    def u1992(self, plik): #fi, lam
         """
         
         Odwzorowanie Gausa Krugera do układu 1992. Odnosi się do południka osiowego 19 stopni. 
@@ -217,8 +218,10 @@ class transformacje():
         szerokosc prostkątna lokalna wyrażona w metrach
         y:  FLOAT
         długosc prostokątna lokalna wyrażona w metrach
-
         """
+        dane = self.danezpl(plik)
+        wynik = []
+        
         m = 0.9993
         N = self.Np(f)
         t = np.tan(f)
@@ -242,19 +245,23 @@ class transformacje():
         y92 = m*ygk + 500000
         
         return (x92, y92)
-        
+        with open('wyniki_1992.txt', 'w') as p:
+            p.write('{:^10s} {:^10s} \n'.format('X[m]','Y[m]'))
+            for j in wynik:
+                p.write('{:^10.3f} {:^10.3f}\n'.format(j[0], j[1]))
+        return(wynik)
+
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.u1992('test_1992.txt')       
     
 
 
-    
-
-    
-    def u2000(self, f, l):
+    def u2000(self, plik):
         """
         Odwzorowanie odnosi się do odwzorowania GK bazującego tym razem na czterech południkach osiowych:
         15, 18, 21, 24. Funkcja odwzorowuje współrzędne wejsciowe na współrzędne prostokątne lokalne GK
         a następnie przeskalowuje je zgodnie zparametrami układu 2000.
-
         Parametry:
         ---------
         f:  FLOAT
@@ -267,8 +274,10 @@ class transformacje():
             szerokosc prostkątna lokalna wyrażona w metrach
         y:  FLOAT
             długosc prostokątna lokalna wyrażona w metrach
-
         """
+        dane = self.danezpl(plik)
+        wynik = []
+        
         m = 0.999923
         N=self.Np(f)
         t = np.tan(f)
@@ -308,9 +317,23 @@ class transformacje():
         y00 =m * ygk + (s*1000000) + 500000
          
         return(x00, y00)
+
+        with open('wyniki_2000.txt', 'w') as p:
+            p.write('{:^10s} {:^10s} \n'.format('X[m]','Y[m]'))
+            for j in wynik:
+                p.write('{:^10.3f} {:^10.3f}\n'.format(j[0], j[1]))
+        return(wynik)
+
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.u1992('test_2000.txt')   
     
     
-    def XYZ2neu(self, f, l, s, alfa, z):
+    def XYZ2neu(self, plik): # X Y Z
+        dane = self.danezpl(plik)
+        wynik = []
+        
+        X,Y,Z,Xk,Yk,Zk = i
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p*(1-self.e2)))
         while True:
@@ -329,8 +352,21 @@ class transformacje():
         dneu = np.array([s * np.sin(z) * np.cos(alfa),
                          s * np.sin(z) * np.sin(alfa),
                          s * cos(z)])
-        return(dneu[0], dneu[1], dneu[2])
+        dXYZ = np.array([[Xk - X],[Yk - Y],[Zk - Z]])
+        neu = R.T @ dXYZ
+        wynik.append([neu[0][0], neu[1][0],neu[2][0]])
+        
+        with open('raport_XYZ2NEU.txt', 'w') as plik:
+            p.write( '{:^15s} {:^15s} {:^15s}\n'.format('n','e','u'))
+            for j in wynik:
+                p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
+        return(wynik)
     
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.XYZ2neu('test_XYZ2neu.txt')    
+    
+"""    
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
@@ -339,88 +375,59 @@ if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
     
-    
+"""    
 """
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 3853110.000; Y = 1425020.000; Z = 4863030.000
     phi, lam, h = geo.XYZ2flh(X, Y, Z)
-    print('f: ', round(phi,5), 'l: ', round(lam,5), 'h: ', round(h, 3))
-    
+    print('f:', round(phi,5), 'l:', round(lam,5), 'h:', round(h, 3))
+   
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
     X, Y, Z = geo.flh2XYZ(f, l, h)
     print('X: ', round(X,3), 'Y: ', round(Y,3), 'Z: ', round(Z, 3))
-
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
     x92, y92 = geo.u1992(f, l)
     print('x92: ', round(x92, 3), 'y92: ', round(y92,3))
-
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
     x00, y00 = geo.u2000(f, l)
     print('x00: ', round(x00, 3), 'y00: ', round(y00,3))
-    
+  
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     X = 0.8726510197633319; Y = 0.3542359357681509; Z = 387.3190605593845
     n, e, u = geo.XYZ2neu(dXYZ, f, l, s, alfa, z)
-    print(n, e, u)"""
+    print(n, e, u)
  
- #tu cos nie gra chyba trzeba zrobic ta inna wersje
 """
+
 if __name__ == "__main__":
     
-    trans = transformacje(self.model)
-    pars = argparse.ArgumentParser(description = "Transformacje współrzędnych")
-    pars.add_argument(dest = "Metoda", metavar = 'M', nargs = 1, type = str,
-                      help = 'napisz nazwe metody (wymienic metody)')
-    pars.add_argument(dest = 'Załączanie danych', metavar = 'L', nargs = 1, type = str,
-                      help = 'jak chcesz wprowadzac tane txt, input')
-        
-    pars.add_argument(dest = 'dane', metavar = 'D', type = float, nargs = '+',
-                      help = 'wsp do zamiany')
-    
-    args = pars.parse_args()
-    print(args)
-    """
-"""
-if __name__ == "__main__":
-    
-    parser = ArgumentParser()
+    ap = ArgumentParser()
   
-    parser.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
-    parser.add_argument('-tr', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
-    parser.add_argument('-el', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
+    ap.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
+    ap.add_argument('-transformacja', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
+    ap.add_argument('-odniesienie', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
-    arg = parser.parse_args()
+    arg = ap.parse_args()
     transformacje_wsp = {'XYZ2flh':'XYZ2flh','flh2XYZ':'flh2XYZ', 'u1992':'u1992', 'u2000':'u2000', 'XYZ2neu':'XYZ2neu'}
     
     stop = ""
     
     try:
-<<<<<<< HEAD
-        while koniec != "koniec":
-            if arg.d--None:
-                arg.d = input(str('Podaj lokalizację pliku txt'))
-            if arg.t--None:
-                arg.t = input(str('Transformacja:')).upper()
-            if arg.r--None:
-                arg.r = input(str('Model elipsoidy')).upper()
-            el = transformacje()
-            trans = transformacje_wsp[arg.t] 
-            
         while stop != "stop":
             if arg.plik == None:
                 arg.plik = input(str('Podaj lokalizację pliku txt'))
-            if arg.tr == None:
-                arg.tr = input(str('Transformacja:')).upper()
-            if arg.el == None:
-                arg.el = input(str('Model elipsoidy')).upper()
+            if arg.transformacja == None:
+                arg.transformacja = input(str('Transformacja:')).upper()
+            if arg.odniesienie == None:
+                arg.odniesienie = input(str('Model elipsoidy')).upper()
             elip = transformacje()
             trans = transformacje_wsp[arg.t]
             if trans == 'XYZ2flh':
@@ -434,7 +441,7 @@ if __name__ == "__main__":
             if trans == 'XYZ2neu':
                 zapytaj = elip.XYZ2neu(arg.plik, arg.el)
                 
-            print('Raport zapisany w folderze')
+            print('Raport został zapisany w folderze')
             
             stop = input(str("Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.")).upper()
                 
@@ -454,5 +461,3 @@ if __name__ == "__main__":
     finally:
         print('Program zakończył pracę.')
             
-
-#funkcja = getattr(trans, args.method[0]) """
