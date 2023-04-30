@@ -40,21 +40,21 @@ Po wpisaniu 'stop' program zakończy pracę.
 Program zakończył pracę.
 ```
 Aby kontynuować pracę z programem należy wpisać dowolne inne słowo.
-### Tranformacja XYZ2BLH
+### PRZYKŁAD:Tranformacja BLH2XYZ
 Plik z danymi:
 ```sh
 3853110.000 11425020.000 4863030.000
 ```
 Raport:
 ```sh
-   B[°]       L[°]       H[m] 
- 49.99923   20.29622    388.846
+   X[m]       Y[m]       Z[m]    
+3668775.138 1410627.992 5014812.699
 ```
 Program odpowiada:
 ```sh
 Podaj lokalizację pliku txt: C:\Users\Dell\Documents\GitHub\informatyka\wyniki_XYZ2BLH.txt
-Nazwa transformacji:XYZ2BLH
-Model elipsoidy:grs80
+Nazwa transformacji:BLH2XYZ
+Model elipsoidy:wgs84
 Raport został zapisany w folderze.
 Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.: stop
 Program zakończył pracę.
