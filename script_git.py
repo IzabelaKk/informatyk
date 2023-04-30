@@ -118,7 +118,7 @@ class transformacje():
             
             
 
-    def XYZ2flh(self, plik): #x, y, z
+    def XYZ2BLH(self, plik): 
         """
         Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich (x, y, z)
         na współrzędne geodezyjne długość szerokość i wysokośc elipsoidalna (phi, lam, h). Jest to proces iteracyjny. 
@@ -157,10 +157,10 @@ class transformacje():
     
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
+    wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')
         
     
-    def flh2XYZ(self, plik):
+    def BLH2XYZ(self, plik):
         """
         Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
 
@@ -201,9 +201,9 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
+    ooo = geo.BLH2XYZ('test_BLH2XYZ.txt')
     
-    def u1992(self, plik): #fi, lam
+    def FL21992(self, plik): 
         """
         
         Odwzorowanie Gausa Krugera do układu 1992. Odnosi się do południka osiowego 19 stopni. 
@@ -256,11 +256,11 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.u1992('test_1992.txt')       
+    wynik = geo.FL21992('test_1992.txt')       
     
 
 
-    def u2000(self, plik):
+    def FL22000(self, plik):
         """
         Odwzorowanie odnosi się do odwzorowania GK bazującego tym razem na czterech południkach osiowych:
         15, 18, 21, 24. Funkcja odwzorowuje współrzędne wejsciowe na współrzędne prostokątne lokalne GK
@@ -328,7 +328,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.u1992('test_2000.txt')   
+    wynik = geo.FL22000('test_2000.txt')   
     
     
     def XYZ2neu(self, plik): # X Y Z
@@ -418,7 +418,7 @@ if __name__ == "__main__":
     ap.add_argument('-odniesienie', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
     arg = ap.parse_args()
-    transformacje_wsp = {'XYZ2flh':'XYZ2flh','flh2XYZ':'flh2XYZ', 'u1992':'u1992', 'u2000':'u2000', 'XYZ2neu':'XYZ2neu'}
+    transformacje_wsp = {'XYZ2BLH':'XYZ2BLH','BLH2XYZ':'BLH2XYZ', 'FL21992':'FL21992', 'FL22000':'FL22000', 'XYZ2neu':'XYZ2neu'}
     
     stop = ""
     
@@ -432,13 +432,13 @@ if __name__ == "__main__":
                 arg.odniesienie = input(str('Model elipsoidy')).upper()
             elip = transformacje()
             trans = transformacje_wsp[arg.transformacja]
-            if trans == 'XYZ2flh':
+            if trans == 'XYZ2BLH':
                 zapytaj = elip.XYZ2flh(arg.plik, arg.odniesienie)
-            if trans == 'flh2XYZ':
+            if trans == 'BLH2XYZ':
                 zapytaj = elip.flh2XYZ(arg.plik, arg.odniesienie)
-            if trans == 'u1992':
+            if trans == 'FL21992':
                 zapytaj = elip.u1992(arg.plik, arg.odniesienie)
-            if trans == 'u2000':
+            if trans == 'FL22000':
                 zapytaj = elip.u2000(arg.plik, arg.odniesienie)
             if trans == 'XYZ2neu':
                 zapytaj = elip.XYZ2neu(arg.plik, arg.odniesienie)
