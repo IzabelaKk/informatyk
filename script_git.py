@@ -182,7 +182,7 @@ if __name__ == "__main__":
 
         """
         dane = self.danezpl(plik)
-        wyn = []
+        wynik = []
         for i in dane:
             f, l, h = i
             N = self.Np(f)
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    ooo = geo.BLH2XYZ('test_BLH2XYZ.txt')
+    wynik = geo.BLH2XYZ('test_BLH2XYZ.txt')
     
     def FL21992(self, plik): 
         """
@@ -384,7 +384,7 @@ if __name__ == "__main__":
             neu = R.T @ dXYZ
             wynik.append([neu[0][0], neu[1][0],neu[2][0]])
         
-        with open('wyniki_XYZ2NEU.txt', 'w') as p:
+        with open('wyniki_XYZ2neu.txt', 'w') as p:
             p.write( '{:^15s} {:^15s} {:^15s}\n'.format('n','e','u'))
             for j in wynik:
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
