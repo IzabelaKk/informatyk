@@ -24,7 +24,7 @@ class transformacje():
             self.b = 6356752.31414036
         elif model == "krasowski":
             self.a = 6378245
-            self.b = 6356863.019  
+            self.b = 6356863.019  #jakby był potrzebny mimosrod i f http://uriasz.am.szczecin.pl/naw_bezp/elipsoida.html
         else:
             raise NotImplementedError(f"{model} nie został zaimplementowany")
 
@@ -48,7 +48,7 @@ class transformacje():
                 i = i.replace(',', ' ').split()
                 dane.append([float(j) for j in i])
                 return dane
-
+            
     
     def wyniki(self, plik, wyniki):
         with open(plik, 'w') as plik:
@@ -118,7 +118,7 @@ class transformacje():
             
             
 
-    def XYZ2flh(self, plik): #x, y, z
+    def XYZ2BLH(self, plik): 
         """
         Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich (x, y, z)
         na współrzędne geodezyjne długość szerokość i wysokośc elipsoidalna (phi, lam, h). Jest to proces iteracyjny. 
@@ -149,7 +149,7 @@ class transformacje():
                     break
             l = np.arctan2(Y,X)
             wynik.append([degrees(f), degrees(l), h])
-        with open('wyniki_XYZ2flh.txt', 'w') as p:
+        with open('wyniki_XYZ2BLH.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('phi[°]','lam[°]','h[m]'))
             for j in wynik:
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
@@ -157,10 +157,10 @@ class transformacje():
     
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
+    wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')
         
     
-    def flh2XYZ(self, plik):
+    def BLH2XYZ(self, plik):
         """
         Funkcja przeliczająca współrzędne geodezyjne (phi, lam h) na współrzędne ortokartezjańskie (X, Y, Z)
 
@@ -201,9 +201,9 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.flh2XYZ('test_BLH2XYZ.txt')
+    ooo = geo.BLH2XYZ('test_BLH2XYZ.txt')
     
-    def u1992(self, plik): #fi, lam
+    def FL21992(self, plik): 
         """
         
         Odwzorowanie Gausa Krugera do układu 1992. Odnosi się do południka osiowego 19 stopni. 
@@ -256,11 +256,11 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.u1992('test_1992.txt')       
+    wynik = geo.FL21992('test_1992.txt')       
     
 
 
-    def u2000(self, plik):
+    def FL22000(self, plik):
         """
         Odwzorowanie odnosi się do odwzorowania GK bazującego tym razem na czterech południkach osiowych:
         15, 18, 21, 24. Funkcja odwzorowuje współrzędne wejsciowe na współrzędne prostokątne lokalne GK
@@ -328,7 +328,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.u2000('test_2000.txt')   
+    wynik = geo.FL22000('test_2000.txt')   
     
     
     def XYZ2neu(self, plik): # X Y Z
@@ -358,7 +358,7 @@ if __name__ == "__main__":
             neu = R.T @ dXYZ
             wynik.append([neu[0][0], neu[1][0],neu[2][0]])
         
-        with open('wyniki_XYZ2NEU.txt', 'w') as plik:
+        with open('wyniki_XYZ2NEU.txt', 'w') as p:
             p.write( '{:^15s} {:^15s} {:^15s}\n'.format('n','e','u'))
             for j in wynik:
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
@@ -368,16 +368,6 @@ if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     wynik = geo.XYZ2neu('test_XYZ2neu.txt')    
     
-"""    
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
-    
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
-    
-"""    
 """
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
@@ -418,38 +408,38 @@ if __name__ == "__main__":
     ap.add_argument('-odniesienie', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
     arg = ap.parse_args()
-    transformacje_wsp = {'XYZ2flh':'XYZ2flh','flh2XYZ':'flh2XYZ', 'u1992':'u1992', 'u2000':'u2000', 'XYZ2neu':'XYZ2neu'}
+    transformacje_wsp = {'XYZ2BLH':'XYZ2BLH','BLH2XYZ':'BLH2XYZ', 'FL21992':'FL21992', 'FL22000':'FL22000', 'XYZ2neu':'XYZ2neu'}
     
     stop = ""
     
     try:
         while stop != "stop":
             if arg.plik == None:
-                arg.plik = input(str('Podaj lokalizację pliku txt'))
+                arg.plik = input(str('Podaj lokalizację pliku txt:'))
             if arg.transformacja == None:
                 arg.transformacja = input(str('Transformacja:')).upper()
             if arg.odniesienie == None:
-                arg.odniesienie = input(str('Model elipsoidy')).upper()
+                arg.odniesienie = input(str('Model elipsoidy:')).upper()
             elip = transformacje()
-            trans = transformacje_wsp[arg.t]
-            if trans == 'XYZ2flh':
-                zapytaj = elip.XYZ2flh(arg.plik, arg.el)
-            if trans == 'flh2XYZ':
-                zapytaj = elip.flh2XYZ(arg.plik, arg.el)
-            if trans == 'u1992':
-                zapytaj = elip.u1992(arg.plik, arg.el)
-            if trans == 'u2000':
-                zapytaj = elip.u2000(arg.plik, arg.el)
+            trans = transformacje_wsp[arg.transformacja]
+            if trans == 'XYZ2BLH':
+                zapytaj = elip.XYZ2flh(arg.plik, arg.odniesienie)
+            if trans == 'BLH2XYZ':
+                zapytaj = elip.flh2XYZ(arg.plik, arg.odniesienie)
+            if trans == 'FL21992':
+                zapytaj = elip.u1992(arg.plik, arg.odniesienie)
+            if trans == 'FL22000':
+                zapytaj = elip.u2000(arg.plik, arg.odniesienie)
             if trans == 'XYZ2neu':
-                zapytaj = elip.XYZ2neu(arg.plik, arg.el)
+                zapytaj = elip.XYZ2neu(arg.plik, arg.odniesienie)
                 
             print('Raport został zapisany w folderze')
             
             stop = input(str("Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.")).upper()
                 
             arg.plik = None
-            arg.tr = None
-            arg.el = None
+            arg.transformacja = None
+            arg.odniesienie = None
             
     except FileNotFoundError:
         print('Nie znaleziono pliku.')
