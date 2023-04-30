@@ -149,7 +149,7 @@ class transformacje():
                     break
             l = np.arctan2(Y,X)
             wynik.append([degrees(f), degrees(l), h])
-        with open('wyniki_XYZ2flh.txt', 'w') as p:
+        with open('wyniki_XYZ2BLH.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('phi[°]','lam[°]','h[m]'))
             for j in wynik:
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
@@ -368,16 +368,6 @@ if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     wynik = geo.XYZ2neu('test_XYZ2neu.txt')    
     
-"""    
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
-    
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.XYZ2flh('test_XYZ2BLH.txt')
-    
-"""    
 """
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
@@ -425,11 +415,11 @@ if __name__ == "__main__":
     try:
         while stop != "stop":
             if arg.plik == None:
-                arg.plik = input(str('Podaj lokalizację pliku txt'))
+                arg.plik = input(str('Podaj lokalizację pliku txt:'))
             if arg.transformacja == None:
                 arg.transformacja = input(str('Transformacja:')).upper()
             if arg.odniesienie == None:
-                arg.odniesienie = input(str('Model elipsoidy')).upper()
+                arg.odniesienie = input(str('Model elipsoidy:')).upper()
             elip = transformacje()
             trans = transformacje_wsp[arg.transformacja]
             if trans == 'XYZ2BLH':
