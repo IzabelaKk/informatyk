@@ -24,7 +24,7 @@ class transformacje():
             self.b = 6356752.31414036
         elif model == "krasowski":
             self.a = 6378245
-            self.b = 6356863.019  #jakby był potrzebny mimosrod i f http://uriasz.am.szczecin.pl/naw_bezp/elipsoida.html
+            self.b = 6356863.019  
         else:
             raise NotImplementedError(f"{model} nie został zaimplementowany")
 
@@ -201,7 +201,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    ooo = geo.flh2XYZ('test_BLH2XYZ.txt')
+    wynik = geo.flh2XYZ('test_BLH2XYZ.txt')
     
     def u1992(self, plik): #fi, lam
         """
@@ -328,7 +328,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
-    wynik = geo.u1992('test_2000.txt')   
+    wynik = geo.u2000('test_2000.txt')   
     
     
     def XYZ2neu(self, plik): # X Y Z
@@ -358,7 +358,7 @@ if __name__ == "__main__":
             neu = R.T @ dXYZ
             wynik.append([neu[0][0], neu[1][0],neu[2][0]])
         
-        with open('wyniki_XYZ2NEU.txt', 'w') as p:
+        with open('wyniki_XYZ2NEU.txt', 'w') as plik:
             p.write( '{:^15s} {:^15s} {:^15s}\n'.format('n','e','u'))
             for j in wynik:
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
