@@ -122,7 +122,8 @@ class transformacje():
         """
         Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich (x, y, z)
         na współrzędne geodezyjne długość szerokość i wysokośc elipsoidalna (phi, lam, h). Jest to proces iteracyjny. 
-        W wyniku 3-4-krotneej iteracji wyznaczenia wsp. phi można przeliczyć współrzędne z dokładnoscią ok 1 cm.     
+        W wyniku 3-4-krotneej iteracji wyznaczenia wsp. phi można przeliczyć współrzędne z dokładnoscią ok 1 cm. 
+        
         Parametry:
         ----------
         X, Y, Z : FLOAT
@@ -173,7 +174,7 @@ if __name__ == "__main__":
         h : FLOAT
             wysokosć elipsoidalna wyrażona w metrach
 
-        Returns
+        Zwraca
         -------
         X - [metry]
         Y - [metry]
@@ -208,13 +209,15 @@ if __name__ == "__main__":
         
         Odwzorowanie Gausa Krugera do układu 1992. Odnosi się do południka osiowego 19 stopni. 
         Współrzędne wejsciowe zostają odwzorowane na do układu lokalnego GK a następnie przeskalowane zgodnie z układem 1992.
+      
         Parametry:
         ---------
         f:  FLOAT
         szerokoć geodezyjna wyrażona w radianach
         l:  FLOAT
         długoć geodezyjna wyrażona w radianach
-        Returns:
+       
+        Zwraca:
         ---------
         x:  FLOAT
         szerokosc prostkątna lokalna wyrażona w metrach
@@ -265,13 +268,15 @@ if __name__ == "__main__":
         Odwzorowanie odnosi się do odwzorowania GK bazującego tym razem na czterech południkach osiowych:
         15, 18, 21, 24. Funkcja odwzorowuje współrzędne wejsciowe na współrzędne prostokątne lokalne GK
         a następnie przeskalowuje je zgodnie zparametrami układu 2000.
+   
         Parametry:
         ---------
         f:  FLOAT
             szerokoć geodezyjna wyrażona w radianach
         l:  FLOAT
             długoć geodezyjna wyrażona w radianach
-        Returns:
+     
+        Zwraca:
         ---------
         x:  FLOAT
             szerokosc prostkątna lokalna wyrażona w metrach
@@ -332,6 +337,27 @@ if __name__ == "__main__":
     
     
     def XYZ2neu(self, plik): # X Y Z
+    
+        """
+        Na podstawie podanych parametrów tworzony jest wektor obserwacji oraz macierz obrotu czyli szukane wektory n e u.
+        Parametry:
+        ---------
+        f:  FLOAT
+            szerokoć geodezyjna wyrażona w radianach
+        l:  FLOAT
+            długoć geodezyjna wyrażona w radianach
+        h:  FLOAT
+            wysokoć geodezyjna wyrażona w metrach
+        s, a, z : FLOAT
+            parametry wektora przestrzennego w układzie lokalnym topocentrycznym
+            s wyrażone w metrach
+            a, z wyrażone w stopniach dziesiętnych
+    
+        Zwraca:
+        ---------
+        n, e u: FLOAT
+            wektory przestrzenne
+        """
         dane = self.danezpl(plik)
         wynik = []
         for i in wynik:
