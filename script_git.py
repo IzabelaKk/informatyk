@@ -142,14 +142,15 @@ class transformacje():
             p = np.sqrt(X**2 + Y**2)
             f = np.arctan(Z/(p*(1-self.e2)))
             while True:
-                N = self.Np(f)
+                N = self.a / np.sqrt(1- self.e2 * np.sin(f)**2)
+                h = (p / np.cos(f)) - N
                 fpop = f
-                h = (p/np.cos(f))-N
                 fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
                 if abs(fpop-f) < (0.000001/206265):
                     break
             l = np.arctan2(Y,X)
             wynik.append([degrees(f), degrees(l), h])
+
         with open('wyniki_XYZ2BLH.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('phi[°]','lam[°]','h[m]'))
             for j in wynik:
