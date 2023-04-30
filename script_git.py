@@ -48,7 +48,7 @@ class transformacje():
                 i = i.replace(',', ' ').split()
                 dane.append([float(j) for j in i])
                 return dane
-
+            
     
     def wyniki(self, plik, wyniki):
         with open(plik, 'w') as plik:
@@ -431,25 +431,25 @@ if __name__ == "__main__":
             if arg.odniesienie == None:
                 arg.odniesienie = input(str('Model elipsoidy')).upper()
             elip = transformacje()
-            trans = transformacje_wsp[arg.t]
+            trans = transformacje_wsp[arg.transformacja]
             if trans == 'XYZ2flh':
-                zapytaj = elip.XYZ2flh(arg.plik, arg.el)
+                zapytaj = elip.XYZ2flh(arg.plik, arg.odniesienie)
             if trans == 'flh2XYZ':
-                zapytaj = elip.flh2XYZ(arg.plik, arg.el)
+                zapytaj = elip.flh2XYZ(arg.plik, arg.odniesienie)
             if trans == 'u1992':
-                zapytaj = elip.u1992(arg.plik, arg.el)
+                zapytaj = elip.u1992(arg.plik, arg.odniesienie)
             if trans == 'u2000':
-                zapytaj = elip.u2000(arg.plik, arg.el)
+                zapytaj = elip.u2000(arg.plik, arg.odniesienie)
             if trans == 'XYZ2neu':
-                zapytaj = elip.XYZ2neu(arg.plik, arg.el)
+                zapytaj = elip.XYZ2neu(arg.plik, arg.odniesienie)
                 
             print('Raport został zapisany w folderze')
             
             stop = input(str("Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.")).upper()
                 
             arg.plik = None
-            arg.tr = None
-            arg.el = None
+            arg.transformacja = None
+            arg.odniesienie = None
             
     except FileNotFoundError:
         print('Nie znaleziono pliku.')
