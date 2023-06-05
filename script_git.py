@@ -184,12 +184,12 @@ if __name__ == "__main__":
             f, l, h = i
             N = self.Np(f)
 
-            f = f * pi / 180
-            l = l * pi / 180
+            f = f * np.pi / 180
+            l = l * np.pi / 180
 
-            X = (N + h) * cos(f) * cos(l)
-            Y = (N + h) * cos(f) * sin(l)
-            Z = (N * (1 - self.e2) + h) * sin(f)
+            X = (N + h) * np.cos(f) * np.cos(l)
+            Y = (N + h) * np.cos(f) * np.sin(l)
+            Z = (N * (1 - self.e2) + h) * np.sin(f)
             wynik.append([X, Y, Z])
         with open('wyniki_BLH2XYZ.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
