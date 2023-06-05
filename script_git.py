@@ -366,7 +366,7 @@ if __name__ == "__main__":
                 N = self.Np(f)
                 fpop = f
                 h = (p/np.cos(f))-N
-                fl = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+                f = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
                 if abs(fpop-f) < (0.000001/206265):
                     break
                 l = np.arctan2(Y,X)
