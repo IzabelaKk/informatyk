@@ -285,7 +285,8 @@ if __name__ == "__main__":
         """
         dane = self.danezpl(plik)
         wynik = []
-        for i in wynik:
+        for i in dane:
+            f, l = i
             m = 0.999923
             N=self.Np(f)
             t = np.tan(f)
@@ -360,7 +361,7 @@ if __name__ == "__main__":
         """
         dane = self.danezpl(plik)
         wynik = []
-        for i in wynik:
+        for i in dane:
             X,Y,Z,Xk,Yk,Zk = i
             p = np.sqrt(X**2 + Y**2)
             f = np.arctan(Z/(p*(1-self.e2)))
