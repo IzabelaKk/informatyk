@@ -359,7 +359,7 @@ if __name__ == "__main__":
         dane = self.danezpl(plik)
         wynik = []
         for i in dane:
-            X,Y,Z,Xk,Yk,Zk = i
+            X,Y,Z,s,z,alfa = i
             p = np.sqrt(X**2 + Y**2)
             f = np.arctan(Z/(p*(1-self.e2)))
             while True:
@@ -371,13 +371,13 @@ if __name__ == "__main__":
                     break
                 l = np.arctan2(Y,X)
         
-            R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * cos(l)],
+            R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
                           [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
                           [np.cos(f), 0, np.sin(f)]])
         
             dneu = np.array([s * np.sin(z) * np.cos(alfa),
                              s * np.sin(z) * np.sin(alfa),
-                             s * cos(z)])
+                             s * np.cos(z)])
             dXYZ = np.array([[Xk - X],[Yk - Y],[Zk - Z]])
             neu = R.T @ dXYZ
             wynik.append([neu[0][0], neu[1][0],neu[2][0]])
