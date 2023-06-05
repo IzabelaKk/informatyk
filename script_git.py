@@ -113,7 +113,7 @@ class transformacje():
         -------
         Wartosc promienia przekroju przekroju normalnego w kierunku głównym. 
         """
-        M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(flat)**2)**3)
+        M = self.a * (1 - self.e2) / np.sqrt((1 - self.e2 * np.sin(self.flat)**2)**3)
         return(M)
             
             
@@ -193,12 +193,12 @@ if __name__ == "__main__":
             X = (N + h) * cos(f) * cos(l)
             Y = (N + h) * cos(f) * sin(l)
             Z = (N * (1 - self.e2) + h) * sin(f)
-            wyn.append([X, Y, Z])
+            wynik.append([X, Y, Z])
         with open('wyniki_BLH2XYZ.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
-            for j in wyn:
+            for j in wynik:
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
-        return(wyn)
+        return(wynik)
 
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
