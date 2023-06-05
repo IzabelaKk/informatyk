@@ -29,7 +29,7 @@ class transformacje():
             raise NotImplementedError(f"{model} nie został zaimplementowany")
 
         self.flat = (self.a - self.b) / self.a
-        self.e = sqrt(2 * self.flat - self.flat ** 2) 
+        self.e = np.sqrt(2 * self.flat - self.flat ** 2) 
         self.e2 = (2 * self.flat - self.flat ** 2)
         
 
@@ -200,6 +200,11 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     wynik = geo.BLH2XYZ('test_BLH2XYZ.txt')
+    
+    ##
+    if __name__ == "__main__":
+        geo = transformacje(model = "wgs84")
+        wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')
     
     def FL21992(self, plik): 
         """
