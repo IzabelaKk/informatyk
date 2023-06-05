@@ -33,10 +33,6 @@ class transformacje():
         self.e2 = (2 * self.flat - self.flat ** 2)
         
 
-
-        self.f = (self.a - self.b) / self.a
-        self.e = sqrt(2 * self.f - self.f ** 2) 
-        self.e2 = (2 * self.f - self.f ** 2) 
             
     
     
