@@ -69,7 +69,7 @@ class transformacje():
         if x < 0:
             sig = '-'
             x = abs(x)
-        x = x * 180/pi
+        x = x * 180/np.pi
         d = int(x)
         m = int(60 * (x - d))
         s = (x - d - m/60)*3600
@@ -191,6 +191,7 @@ if __name__ == "__main__":
             Y = (N + h) * np.cos(f) * np.sin(l)
             Z = (N * (1 - self.e2) + h) * np.sin(f)
             wynik.append([X, Y, Z])
+            
         with open('wyniki_BLH2XYZ.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
             for j in wynik:
