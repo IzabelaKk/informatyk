@@ -29,7 +29,7 @@ class transformacje():
             raise NotImplementedError(f"{model} nie został zaimplementowany")
 
         self.flat = (self.a - self.b) / self.a
-        self.e = sqrt(2 * self.flat - self.flat ** 2) 
+        self.e = np.sqrt(2 * self.flat - self.flat ** 2) 
         self.e2 = (2 * self.flat - self.flat ** 2)
         
 
@@ -69,7 +69,7 @@ class transformacje():
         if x < 0:
             sig = '-'
             x = abs(x)
-        x = x * 180/pi
+        x = x * 180/np.pi
         d = int(x)
         m = int(60 * (x - d))
         s = (x - d - m/60)*3600
@@ -184,13 +184,14 @@ if __name__ == "__main__":
             f, l, h = i
             N = self.Np(f)
 
-            f = f * pi / 180
-            l = l * pi / 180
+            f = f * np.pi / 180
+            l = l * np.pi / 180
 
-            X = (N + h) * cos(f) * cos(l)
-            Y = (N + h) * cos(f) * sin(l)
-            Z = (N * (1 - self.e2) + h) * sin(f)
+            X = (N + h) * np.cos(f) * np.cos(l)
+            Y = (N + h) * np.cos(f) * np.sin(l)
+            Z = (N * (1 - self.e2) + h) * np.sin(f)
             wynik.append([X, Y, Z])
+            
         with open('wyniki_BLH2XYZ.txt', 'w') as p:
             p.write('{:^10s} {:^10s} {:^10s} \n'.format('X[m]','Y[m]','Z[m]'))
             for j in wynik:
@@ -200,6 +201,11 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     geo = transformacje(model = "wgs84")
     wynik = geo.BLH2XYZ('test_BLH2XYZ.txt')
+    
+    ##
+    if __name__ == "__main__":
+        geo = transformacje(model = "wgs84")
+        wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')
     
     def FL21992(self, plik): 
         """
