@@ -47,7 +47,7 @@ Po wpisaniu 'stop' program zakończy pracę.
 Program zakończył pracę.
 ```
 Aby kontynuować pracę z programem należy wpisać dowolne inne słowo.
-### PRZYKŁAD:Tranformacja BLH2XYZ
+### PRZYKŁAD: Tranformacja BLH2XYZ
 Plik z danymi:
 ```sh
 3853110.000 11425020.000 4863030.000
