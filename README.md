@@ -23,7 +23,7 @@ Program oferuje funkcje transformacji współrzędnych między różnymi układa
 - Dane dla XYZ2neu -> ```| Xp[m] | Yp[m] | Zp[m] | Xk[m] | Yk[m] | Zk[m] |```
 
 #### Dane dla XYZ2neu:
-W pliku wejściowym .txt należy zamieścić kolejno wpsółrzędne początkowe oraz wsółrzędne końcowe odcinka.
+W pliku wejściowym .txt ```| Xp | Yp | Zp |``` to wpsółrzędne początkowe, a ```| Xk | Yk | Zk |``` to wsółrzędne końcowe odcinka.
 
 ### Jak korzystać z programu?
 W Wierszu poleceń należy wykonywać polecania programu.
