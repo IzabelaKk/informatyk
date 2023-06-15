@@ -67,4 +67,5 @@ Aby zakończyć wpisz STOP. Aby korzystać dalej napisz inne słowo.: stop
 Program zakończył pracę.
 ```
 ### Informacje o błędach.
+
 Program miewa trudności z transformacją obszernych danych. Zaleca się transformowanie zestawów danych z osobna tj. po jedenj linijce.
