@@ -10,6 +10,13 @@ Program oferuje funkcje transformacji współrzędnych między różnymi układa
 - WGS84
 - GRS80
 - Elipsoida Krasowskiego
+### Dane wejściowe
+#### W plikch należy wprowadzić dane w kolumnach w poniższej postaci:
+- Dane dla BLH2XYZ -> ```| φ[ᴼ] | λ[ᴼ] | H[m] |```
+- Dane dla XYZ2BLH -> ```| X[m] | Y[m] | Z[m] |```
+- Dane dla FL21992 -> ```| φ[ᴼ] | λ[ᴼ] |```
+- Dane dla FL22000 -> ```| φ[ᴼ] | λ[ᴼ] |```
+- XYZ2neu ???????????????????????????? 
 ### Jakie wymagania musi spełniać twój komputer?
 - Oprogramowanie Windows 10
 - Program Python 3.9 lub 3.10
