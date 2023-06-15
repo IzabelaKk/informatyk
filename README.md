@@ -69,4 +69,4 @@ Program zakończył pracę.
 ### Informacje o błędach.
 
 - Program miewa trudności z transformacją obszernych danych. Zaleca się transformowanie zestawów danych z osobna tj. po jedenj linijce.
-- Transformacje FL22000 oraz FL21992 dają błedne rezultaty prz użyciu elipsoidy Krasowskiego, dlatego nie powinno się z niej korzystać.
+- Transformacje FL22000 oraz FL21992 dają błedne rezultaty prz użyciu elipsoidy Krasowskiego, dlatego nie należy z niej korzystać.
