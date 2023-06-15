@@ -1,5 +1,9 @@
 # PROJEKT: Transformacje współrzędnych
 Program oferuje funkcje transformacji współrzędnych między różnymi układami.
+### Jakie wymagania musi spełniać twój komputer?
+- Oprogramowanie Windows 10
+- Program Python 3.9 lub 3.10
+- Biblioteki konieczne do instalacji: Math, Numpy, Argparse
 ### Z jakich transformacji możesz skorzystać?
 - XYZ (geocentryczne) --> BLH (elipsoidalne)
 - BLH (elipsoidalne) --> XYZ (geocentryczne)
@@ -17,10 +21,9 @@ Program oferuje funkcje transformacji współrzędnych między różnymi układa
 - Dane dla FL21992 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla FL22000 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla XYZ2neu -> ```| Xp[m] | Yp[m] | Zp[m] | Xk[m] | Yk[m] | Zk[m] |```
-### Jakie wymagania musi spełniać twój komputer?
-- Oprogramowanie Windows 10
-- Program Python 3.9 lub 3.10
-- Biblioteki konieczne do instalacji: Math, Numpy, Argparse
+
+#### Dane dla XYZ2neu
+
 ### Jak korzystać z programu?
 W Wierszu poleceń należy wykonywać polecania programu.
 - -> plik ->
