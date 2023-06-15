@@ -152,10 +152,7 @@ class transformacje():
             for j in wynik:
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
         return(wynik)
-    
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')
+
         
     
     def BLH2XYZ(self, plik):
@@ -198,14 +195,6 @@ if __name__ == "__main__":
                 p.write('{:^10.3f} {:^10.3f} {:^10.3f}\n'.format(j[0], j[1], j[2]))
         return(wynik)
 
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.BLH2XYZ('test_BLH2XYZ.txt')
-    
-    ##
-    if __name__ == "__main__":
-        geo = transformacje(model = "wgs84")
-        wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')
     
     def FL21992(self, plik): 
         """
@@ -259,11 +248,6 @@ if __name__ == "__main__":
             for j in wynik:
                 p.write('{:^10.3f} {:^10.3f}\n'.format(j[0], j[1]))
         return(wynik)
-
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.FL21992('test_1992.txt')       
-    
 
 
     def FL22000(self, plik):
@@ -335,12 +319,8 @@ if __name__ == "__main__":
                 p.write('{:^10.3f} {:^10.3f}\n'.format(j[0], j[1]))
         return(wynik)
 
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.FL22000('test_2000.txt')   
     
-    
-    def XYZ2neu(self, plik): # X Y Z
+    def XYZ2neu(self, plik): 
     
         """
         Na podstawie podanych parametrów tworzony jest wektor obserwacji oraz macierz obrotu czyli szukane wektory n e u.
@@ -392,40 +372,7 @@ if __name__ == "__main__":
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
         return(wynik)
     
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.XYZ2neu('test_XYZ2neu.txt')    
-    
-"""
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    X = 3853110.000; Y = 1425020.000; Z = 4863030.000
-    phi, lam, h = geo.XYZ2flh(X, Y, Z)
-    print('f:', round(phi,5), 'l:', round(lam,5), 'h:', round(h, 3))
-   
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
-    X, Y, Z = geo.flh2XYZ(f, l, h)
-    print('X: ', round(X,3), 'Y: ', round(Y,3), 'Z: ', round(Z, 3))
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
-    x92, y92 = geo.u1992(f, l)
-    print('x92: ', round(x92, 3), 'y92: ', round(y92,3))
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    f = 0.8726510197633319; l = 0.3542359357681509; h = 387.3190605593845
-    x00, y00 = geo.u2000(f, l)
-    print('x00: ', round(x00, 3), 'y00: ', round(y00,3))
-  
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    X = 0.8726510197633319; Y = 0.3542359357681509; Z = 387.3190605593845
-    n, e, u = geo.XYZ2neu(dXYZ, f, l, s, alfa, z)
-    print(n, e, u)
- 
-"""
+
 
 if __name__ == "__main__":
     
