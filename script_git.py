@@ -365,26 +365,24 @@ if __name__ == "__main__":
         dane = self.danezpl(plik)
         wynik = []
         for i in dane:
-            X,Y,Z,s,z,alfa = i
-            p = np.sqrt(X**2 + Y**2)
-            f = np.arctan(Z/(p*(1-self.e2)))
+            xp, yp, zp, xk, yk, zk = i
+            p = np.sqrt(xp**2 + yp**2)
+            f = np.arctan(zp/(p*(1-self.e2)))
             while True:
-                N = self.Np(f)
+                N = self.a/np.sqrt(1-self.e2 * np.sin(f)**2)
+                h = (p / np.cos(f)) - N
                 fpop = f
-                h = (p/np.cos(f))-N
-                f = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
+                f = np.arctan(zp/(p*(1-self.e2*(N/(N+h)))))
                 if abs(fpop-f) < (0.000001/206265):
                     break
-                l = np.arctan2(Y,X)
+                l = np.arctan2(yp, xp)
         
             R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
                           [-np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
                           [np.cos(f), 0, np.sin(f)]])
         
-            dneu = np.array([s * np.sin(z) * np.cos(alfa),
-                             s * np.sin(z) * np.sin(alfa),
-                             s * np.cos(z)])
-            dXYZ = np.array([[Xk - X],[Yk - Y],[Zk - Z]])
+            
+            dXYZ = np.array([[xk - xp],[yk - yp],[zk - zp]])
             neu = R.T @ dXYZ
             wynik.append([neu[0][0], neu[1][0],neu[2][0]])
         
