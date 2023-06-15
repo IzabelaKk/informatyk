@@ -16,7 +16,7 @@ Program oferuje funkcje transformacji współrzędnych między różnymi układa
 - Dane dla XYZ2BLH -> ```| X[m] | Y[m] | Z[m] |```
 - Dane dla FL21992 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla FL22000 -> ```| φ[ᴼ] | λ[ᴼ] |```
-- XYZ2neu ???????????????????????????? 
+- Dane dla XYZ2neu -> ```| Xp[m] | Yp[m] | Zp[m] | Xk[m] | Yk[m] | Zk[m] |```
 ### Jakie wymagania musi spełniać twój komputer?
 - Oprogramowanie Windows 10
 - Program Python 3.9 lub 3.10
@@ -68,4 +68,5 @@ Program zakończył pracę.
 ```
 ### Informacje o błędach.
 
-Program miewa trudności z transformacją obszernych danych. Zaleca się transformowanie zestawów danych z osobna tj. po jedenj linijce.
+- Program miewa trudności z transformacją obszernych danych. Zaleca się transformowanie zestawów danych z osobna tj. po jedenj linijce.
+- Transformacje FL22000 oraz FL21992 dają błedne rezultaty prz użyciu elipsoidy Krasowskiego, dlatego nie powinno się z niej korzystać.
