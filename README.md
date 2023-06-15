@@ -15,14 +15,15 @@ Program oferuje funkcje transformacji współrzędnych między różnymi układa
 - GRS80
 - Elipsoida Krasowskiego
 ### Dane wejściowe
-#### W plikch należy wprowadzić dane w kolumnach w poniższej postaci:
+#### W plikch .txt należy wprowadzić dane w kolumnach w poniższej postaci:
 - Dane dla BLH2XYZ -> ```| φ[ᴼ] | λ[ᴼ] | H[m] |```
 - Dane dla XYZ2BLH -> ```| X[m] | Y[m] | Z[m] |```
 - Dane dla FL21992 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla FL22000 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla XYZ2neu -> ```| Xp[m] | Yp[m] | Zp[m] | Xk[m] | Yk[m] | Zk[m] |```
 
-#### Dane dla XYZ2neu
+#### Dane dla XYZ2neu:
+W pliku wejściowym .txt należy zamieścić kolejno wpsółrzędne początkowe oraz wsółrzędne końcowe odcinka.
 
 ### Jak korzystać z programu?
 W Wierszu poleceń należy wykonywać polecania programu.
