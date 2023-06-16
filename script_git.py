@@ -326,16 +326,11 @@ class transformacje():
         Na podstawie podanych parametrów tworzony jest wektor obserwacji oraz macierz obrotu czyli szukane wektory n e u.
         Parametry:
         ---------
-        f:  FLOAT
-            szerokoć geodezyjna wyrażona w radianach
-        l:  FLOAT
-            długoć geodezyjna wyrażona w radianach
-        h:  FLOAT
-            wysokoć geodezyjna wyrażona w metrach
-        s, a, z : FLOAT
-            parametry wektora przestrzennego w układzie lokalnym topocentrycznym
-            s wyrażone w metrach
-            a, z wyrażone w stopniach dziesiętnych
+        Xp, Yp, Zp:  FLOAT
+            współrzędne początku odcinka w ukłdzaie orto - kartezjańskim
+        Xp, Yp, Zp:  FLOAT
+            współrzędne końca odcinka w ukłdzaie orto - kartezjańskim
+       
     
         Zwraca:
         ---------
@@ -347,13 +342,13 @@ class transformacje():
         for i in dane:
             xp, yp, zp, xk, yk, zk = i
             p = np.sqrt(xp**2 + yp**2)
-            f = np.arctan(zp/(p*(1-self.e2)))
+            f = np.arctan(zp/(p * (1-self.e2)))
             while True:
                 N = self.a/np.sqrt(1-self.e2 * np.sin(f)**2)
                 h = (p / np.cos(f)) - N
                 fpop = f
                 f = np.arctan(zp/(p*(1-self.e2*(N/(N+h)))))
-                if abs(fpop-f) < (0.000001/206265):
+                if np.abs(fpop-f) < (0.000001/206265):
                     break
                 l = np.arctan2(yp, xp)
         
