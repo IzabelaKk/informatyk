@@ -15,13 +15,14 @@ Program oferuje funkcje transformacji współrzędnych między różnymi układa
 - GRS80
 - Elipsoida Krasowskiego
 ### Dane wejściowe
+Dane powinny być oddzielone spacją, a cyfry dziesiętne oddzielone punktorem ".".
 #### W plikch .txt należy wprowadzić dane w kolumnach w poniższej postaci:
 - Dane dla BLH2XYZ -> ```| φ[ᴼ] | λ[ᴼ] | H[m] |```
 - Dane dla XYZ2BLH -> ```| X[m] | Y[m] | Z[m] |```
 - Dane dla FL21992 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla FL22000 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla XYZ2neu -> ```| Xp[m] | Yp[m] | Zp[m] | Xk[m] | Yk[m] | Zk[m] |```
-Dane powinny być oddzielone spacją, a cyfry dziesiętne oddzielone punktorem ".".
+
 
 #### Dane dla XYZ2neu:
 W pliku wejściowym .txt ```| Xp | Yp | Zp |``` to współrzędne początkowe, a ```| Xk | Yk | Zk |``` to współrzędne końcowe odcinka.
@@ -73,5 +74,6 @@ Program zakończył pracę.
 ```
 ### Informacje o błędach
 
-- Program miewa trudności z transformacją obszernych danych. Zaleca się transformowanie zestawów danych z osobna tj. po jedenj linijce.
 - Transformacje FL22000 oraz FL21992 dają błedne rezultaty prz użyciu elipsoidy Krasowskiego, dlatego nie należy z niej korzystać.
+- Problem z zaimplementowaniem funkcji XYZ2neu, którego nie udało nam się rozwiązać.
+- Problem z tranformacją w funkcji XYZ2BLH. Wysokość H obliczana jest nieprawidłowo.
