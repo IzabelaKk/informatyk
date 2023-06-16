@@ -139,7 +139,8 @@ class transformacje():
             f = np.arctan(Z/(p*(1-self.e2)))
             while True:
                 N = self.a / np.sqrt(1- self.e2 * np.sin(f)**2)
-                h = (p / np.cos(f)) - N
+                h = (p / np.cos(f)) - N + (self.e2 * N)
+                #h = (p / np.cos(f)) - N
                 fpop = f
                 f = np.arctan(Z/(p*(1-self.e2*N/(N+h))))
                 if abs(fpop-f) < (0.000001/206265):
