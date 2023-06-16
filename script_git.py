@@ -371,7 +371,14 @@ class transformacje():
             for j in wynik:
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
         return(wynik)
+            
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')  
     
+if __name__ == "__main__":
+    geo = transformacje(model = "wgs84")
+    wynik = geo.BLH2XYZ('test_BLH2XYZ.txt')
 
 
 if __name__ == "__main__":
@@ -427,4 +434,4 @@ if __name__ == "__main__":
 
     finally:
         print('Program zakończył pracę.')
-            
+
