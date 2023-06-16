@@ -320,7 +320,7 @@ class transformacje():
         return(wynik)
 
     
-    def XYZ2neu(self, plik): 
+    def XYZ2NEU(self, plik): 
     
         """
         Na podstawie podanych parametrów tworzony jest wektor obserwacji oraz macierz obrotu czyli szukane wektory n e u.
@@ -361,7 +361,7 @@ class transformacje():
             neu = R.T @ dXYZ
             wynik.append([neu[0][0], neu[1][0],neu[2][0]])
         
-        with open('wyniki_XYZ2neu.txt', 'w') as p:
+        with open('wyniki_XYZ2NEU.txt', 'w') as p:
             p.write( '{:^15s} {:^15s} {:^15s}\n'.format('n','e','u'))
             for j in wynik:
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
@@ -375,16 +375,16 @@ if __name__ == "__main__":
     ap = ArgumentParser()
   
     ap.add_argument('-plik', type = str, help = 'Podaj nazwę pliku wraz zrozszerzeniem lub scieżkę do pliku.')
-    ap.add_argument('-transformacja', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2neu)')
+    ap.add_argument('-transformacja', type = str, help = 'Wybrana transformacja (XYZ2flh, flh2XYZ, u1992, u2000, XYZ2NEU)')
     ap.add_argument('-odniesienie', type = str, help = 'Przyjmuje model elipsoidy (WGS84, GRS80, krasowski)')
     
     arg = ap.parse_args()
-    transformacje_wsp = {'XYZ2BLH':'XYZ2BLH','BLH2XYZ':'BLH2XYZ', 'FL21992':'FL21992', 'FL22000':'FL22000', 'XYZ2neu':'XYZ2neu'}
+    transformacje_wsp = {'XYZ2BLH':'XYZ2BLH','BLH2XYZ':'BLH2XYZ', 'FL21992':'FL21992', 'FL22000':'FL22000', 'XYZ2NEU':'XYZ2NEU'}
     
     stop = ""
     
     try:
-        while stop != "stop":
+        while stop != "STOP":
             if arg.plik == None:
                 arg.plik = input(str('Podaj lokalizację pliku txt:'))
             if arg.transformacja == None:
@@ -401,8 +401,8 @@ if __name__ == "__main__":
                 zapytaj = elip.FL21992(arg.plik)
             if trans == 'FL22000':
                 zapytaj = elip.FL22000(arg.plik)
-            if trans == 'XYZ2neu':
-                zapytaj = elip.XYZ2neu(arg.plik)
+            if trans == 'XYZ2NEU':
+                zapytaj = elip.XYZ2NEU(arg.plik)
                 
             print('Raport został zapisany w folderze')
             
@@ -419,7 +419,7 @@ if __name__ == "__main__":
     except ValueError:
         print('Format danych jest niepoprawny.')
     except KeyError:
-        print('Niewlasciwe paramerty.')
+        print('Niewlasciwe parametry.')
 
     finally:
         print('Program zakończył pracę.')
