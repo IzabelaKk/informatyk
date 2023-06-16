@@ -327,16 +327,11 @@ class transformacje():
         Na podstawie podanych parametrów tworzony jest wektor obserwacji oraz macierz obrotu czyli szukane wektory n e u.
         Parametry:
         ---------
-        f:  FLOAT
-            szerokoć geodezyjna wyrażona w radianach
-        l:  FLOAT
-            długoć geodezyjna wyrażona w radianach
-        h:  FLOAT
-            wysokoć geodezyjna wyrażona w metrach
-        s, a, z : FLOAT
-            parametry wektora przestrzennego w układzie lokalnym topocentrycznym
-            s wyrażone w metrach
-            a, z wyrażone w stopniach dziesiętnych
+        Xp, Yp, Zp:  FLOAT
+            współrzędne początku odcinka w ukłdzaie orto - kartezjańskim
+        Xp, Yp, Zp:  FLOAT
+            współrzędne końca odcinka w ukłdzaie orto - kartezjańskim
+       
     
         Zwraca:
         ---------
