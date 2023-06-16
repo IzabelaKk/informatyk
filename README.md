@@ -29,7 +29,7 @@ W pliku wejściowym .txt ```| Xp | Yp | Zp |``` to współrzędne początkowe, a
 ### Jak korzystać z programu?
 W Wierszu poleceń należy wykonywać polecania programu.
 - -> plik ->
-Należy podać nazwę pliku wraz z rozszerzeniem, jeśli znajduje się w tym <br> samym folderze, lub ścieżkę do pliku, jeśli jest ulokowany poza folderem.
+Należy podać nazwę pliku wraz z rozszerzeniem, jeśli znajduje się w tym samym folderze, lub ścieżkę do pliku, jeśli jest ulokowany poza folderem.
 - -> transformacja -> 
 Należy podać nazwę transformacji współrzędnych na której chcesz pracować.
 - -> odniesienie -> 
