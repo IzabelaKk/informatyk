@@ -21,9 +21,10 @@ Program oferuje funkcje transformacji współrzędnych między różnymi układa
 - Dane dla FL21992 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla FL22000 -> ```| φ[ᴼ] | λ[ᴼ] |```
 - Dane dla XYZ2neu -> ```| Xp[m] | Yp[m] | Zp[m] | Xk[m] | Yk[m] | Zk[m] |```
+Dane powinny być oddzielone spacją, a cyfry dziesiętne oddzielone punktorem ".".
 
 #### Dane dla XYZ2neu:
-W pliku wejściowym .txt ```| Xp | Yp | Zp |``` to wpsółrzędne początkowe, a ```| Xk | Yk | Zk |``` to wsółrzędne końcowe odcinka.
+W pliku wejściowym .txt ```| Xp | Yp | Zp |``` to współrzędne początkowe, a ```| Xk | Yk | Zk |``` to współrzędne końcowe odcinka.
 
 ### Jak korzystać z programu?
 W Wierszu poleceń należy wykonywać polecania programu.
