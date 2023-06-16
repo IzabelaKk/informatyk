@@ -43,7 +43,7 @@ class transformacje():
             for i in linie:
                 i = i.replace(',', ' ').split()
                 dane.append([float(j) for j in i])
-                return dane
+        return dane
             
     
     def wyniki(self, plik, wyniki):
@@ -399,15 +399,15 @@ if __name__ == "__main__":
             elip = transformacje()
             trans = transformacje_wsp[arg.transformacja]
             if trans == 'XYZ2BLH':
-                zapytaj = elip.XYZ2BLH(arg.plik, arg.odniesienie)
+                zapytaj = elip.XYZ2BLH(arg.plik)
             if trans == 'BLH2XYZ':
-                zapytaj = elip.BLH2XYZ(arg.plik, arg.odniesienie)
+                zapytaj = elip.BLH2XYZ(arg.plik)
             if trans == 'FL21992':
-                zapytaj = elip.FL21992(arg.plik, arg.odniesienie)
+                zapytaj = elip.FL21992(arg.plik)
             if trans == 'FL22000':
-                zapytaj = elip.FL22000(arg.plik, arg.odniesienie)
+                zapytaj = elip.FL22000(arg.plik)
             if trans == 'XYZ2neu':
-                zapytaj = elip.XYZ2neu(arg.plik, arg.odniesienie)
+                zapytaj = elip.XYZ2neu(arg.plik)
                 
             print('Raport został zapisany w folderze')
             
