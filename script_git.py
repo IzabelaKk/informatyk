@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 
 class transformacje():
     
-    def __init__(self, model: str = "wgs 84"):
+    def __init__(self, model: str = "wgs84"):
         """
         
         Parametry elipsolidy:
@@ -24,7 +24,7 @@ class transformacje():
             self.b = 6356752.31414036
         elif model == "krasowski":
             self.a = 6378245
-            self.b = 6356863.019  #jakby był potrzebny mimosrod i f http://uriasz.am.szczecin.pl/naw_bezp/elipsoida.html
+            self.b = 6356863.019  
         else:
             raise NotImplementedError(f"{model} nie został zaimplementowany")
 
@@ -372,13 +372,7 @@ class transformacje():
                 p.write(' {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(j[0], j[1], j[2]))
         return(wynik)
             
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.XYZ2BLH('test_XYZ2BLH.txt')  
-    
-if __name__ == "__main__":
-    geo = transformacje(model = "wgs84")
-    wynik = geo.BLH2XYZ('test_BLH2XYZ.txt')
+
 
 
 if __name__ == "__main__":
@@ -405,13 +399,13 @@ if __name__ == "__main__":
             elip = transformacje()
             trans = transformacje_wsp[arg.transformacja]
             if trans == 'XYZ2BLH':
-                zapytaj = elip.XYZ2flh(arg.plik, arg.odniesienie)
+                zapytaj = elip.XYZ2BLH(arg.plik, arg.odniesienie)
             if trans == 'BLH2XYZ':
-                zapytaj = elip.flh2XYZ(arg.plik, arg.odniesienie)
+                zapytaj = elip.BLH2XYZ(arg.plik, arg.odniesienie)
             if trans == 'FL21992':
-                zapytaj = elip.u1992(arg.plik, arg.odniesienie)
+                zapytaj = elip.FL21992(arg.plik, arg.odniesienie)
             if trans == 'FL22000':
-                zapytaj = elip.u2000(arg.plik, arg.odniesienie)
+                zapytaj = elip.FL22000(arg.plik, arg.odniesienie)
             if trans == 'XYZ2neu':
                 zapytaj = elip.XYZ2neu(arg.plik, arg.odniesienie)
                 
