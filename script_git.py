@@ -423,4 +423,10 @@ if __name__ == "__main__":
 
     finally:
         print('Program zakończył pracę.')
+        
+        
+transform = transformacje()
+dane = transform.dane_z_pliku("dane.txt")
+no = transform.XYZ2neu(dane[0])
+transform.zapisz_wyniki("wyniki.txt", no)
 
