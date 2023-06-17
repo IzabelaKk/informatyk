@@ -75,4 +75,4 @@ Program zakończył pracę.
 ### Informacje o błędach
 
 - Transformacje FL22000 oraz FL21992 dają błedne rezultaty prz użyciu elipsoidy Krasowskiego, dlatego nie należy z niej korzystać.
-- Problem z tranformacją w funkcji XYZ2BLH. Wysokość H obliczana jest nieprawidłowo.
+- Transformacja XYZ2BLH daje błędną wartość wysokości. Pozostałe współrzędne działają prawidłowo.
