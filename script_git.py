@@ -138,7 +138,7 @@ class transformacje():
             p = np.sqrt(X**2 + Y**2)
             f = np.arctan(Z/(p*(1-self.e2)))
             while True:
-                N = self.Np(f)
+                N = self.Np(self.flat)
                 h = (p / np.cos(f)) - N
                 fpop = f
                 f = np.arctan(Z/(p*(1-self.e2*(N/(N+h)))))
