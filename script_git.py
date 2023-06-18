@@ -138,7 +138,7 @@ class transformacje():
             p = np.sqrt(X**2 + Y**2)
             f = np.arctan(Z/(p*(1-self.e2)))
             while True:
-                N = self.Np(self.flat)
+                N = self.Np(f)
                 h = (p / np.cos(f)) - N
                 fpop = f
                 f = np.arctan(Z/(p*(1-self.e2*(N/(N+h)))))
@@ -423,7 +423,6 @@ if __name__ == "__main__":
 
     finally:
         print('Program zakończył pracę.')
-        
         
 
 
