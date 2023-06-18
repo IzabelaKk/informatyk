@@ -24,7 +24,7 @@ Dane powinny być oddzielone spacją, a cyfry dziesiętne oddzielone punktorem "
 - Dane dla XYZ2neu -> ```| Xp[m] | Yp[m] | Zp[m] | Xk[m] | Yk[m] | Zk[m] |```
 
 
-#### Dane dla XYZ2neu:
+#### Dane dla XYZ2NEU:
 W pliku wejściowym .txt ```| Xp | Yp | Zp |``` to współrzędne początkowe, a ```| Xk | Yk | Zk |``` to współrzędne końcowe odcinka.
 
 ### Jak korzystać z programu?
